@@ -241,20 +241,20 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
       Math.max(0, (window.scrollY - hero.offsetTop) / maxScroll),
     );
     const museumReveal = this.ease(this.range(progress, 0.12, 0.24));
-    const secondView = this.ease(this.range(progress, 0.4, 0.5));
-    const thirdView = this.ease(this.range(progress, 0.7, 0.8));
-    const firstOpacity = museumReveal * (1 - secondView);
-    const secondOpacity = secondView * (1 - thirdView);
-    const thirdOpacity = thirdView;
+    const secondView = this.smooth(this.range(progress, 0.32, 0.54));
+    const thirdView = this.smooth(this.range(progress, 0.6, 0.82));
     const intro = 1 - this.ease(this.range(progress, 0, 0.18));
 
     this.heroProgress.set(progress);
     hero.style.setProperty('--hero-progress', progress.toFixed(4));
     hero.style.setProperty('--hero-intro', intro.toFixed(4));
     hero.style.setProperty('--museum-reveal', museumReveal.toFixed(4));
-    hero.style.setProperty('--museum-one', firstOpacity.toFixed(4));
-    hero.style.setProperty('--museum-two', secondOpacity.toFixed(4));
-    hero.style.setProperty('--museum-three', thirdOpacity.toFixed(4));
+    hero.style.setProperty('--museum-one-x', (-secondView).toFixed(4));
+    hero.style.setProperty(
+      '--museum-two-x',
+      (1 - secondView - thirdView).toFixed(4),
+    );
+    hero.style.setProperty('--museum-three-x', (1 - thirdView).toFixed(4));
   }
 
   private range(value: number, start: number, end: number): number {
@@ -263,6 +263,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
   private ease(value: number): number {
     return 1 - Math.pow(1 - value, 3);
+  }
+
+  private smooth(value: number): number {
+    return value * value * (3 - 2 * value);
   }
 
   private resizeCanvas(): void {

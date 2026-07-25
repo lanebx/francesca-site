@@ -148,10 +148,10 @@
 .hero {
   --hero-intro: 1;
   --hero-progress: 0;
-  --museum-one: 0;
+  --museum-one-x: 0;
   --museum-reveal: 0;
-  --museum-three: 0;
-  --museum-two: 0;
+  --museum-three-x: 1;
+  --museum-two-x: 1;
   position: relative;
   height: 520vh;
   background: var(--ink);
@@ -227,20 +227,19 @@
 .hero__museum-view {
   display: grid;
   margin: 0;
-  opacity: 0;
-  will-change: opacity;
+  will-change: transform;
 }
 
 .hero__museum-view--one {
-  opacity: var(--museum-one);
+  transform: translate3d(calc(var(--museum-one-x) * 110vw), 0, 0);
 }
 
 .hero__museum-view--two {
-  opacity: var(--museum-two);
+  transform: translate3d(calc(var(--museum-two-x) * 110vw), 0, 0);
 }
 
 .hero__museum-view--three {
-  opacity: var(--museum-three);
+  transform: translate3d(calc(var(--museum-three-x) * 110vw), 0, 0);
 }
 
 .hero__art-object {
