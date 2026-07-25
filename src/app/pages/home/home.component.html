@@ -126,8 +126,8 @@
             />
           </div>
           <figcaption class="hero__caption">
-            <span><em>Aout</em> · 2021</span>
-            <span>Mixed media · 61 × 40 cm</span>
+            <span><em>{{ copy[language()].museum.aout.title }}</em> · 2021</span>
+            <span>{{ copy[language()].museum.aout.medium }} · 61 × 40 cm</span>
           </figcaption>
         </figure>
 
@@ -139,8 +139,11 @@
             />
           </div>
           <figcaption class="hero__caption">
-            <span><em>Twin but Twin V</em> · 2018—2019</span>
-            <span>Ash &amp; mixed media · 50 × 140 cm</span>
+            <span
+              ><em>{{ copy[language()].museum.twin.title }}</em> ·
+              2018—2019</span
+            >
+            <span>{{ copy[language()].museum.twin.medium }} · 50 × 140 cm</span>
           </figcaption>
         </figure>
 
@@ -152,8 +155,12 @@
             />
           </div>
           <figcaption class="hero__caption">
-            <span><em>Larmes dans l’océan et le ciel</em> · 2017</span>
-            <span>Ash &amp; mixed media on canvas · 153 × 194 cm</span>
+            <span
+              ><em>{{ copy[language()].museum.tears.title }}</em> · 2017</span
+            >
+            <span
+              >{{ copy[language()].museum.tears.medium }} · 153 × 194 cm</span
+            >
           </figcaption>
         </figure>
       </div>
@@ -163,7 +170,13 @@
   <section class="statement section-shell" aria-labelledby="statement-title">
     <p class="eyebrow">{{ copy[language()].statementEyebrow }}</p>
     <h2 id="statement-title">{{ copy[language()].statement }}</h2>
-    <span class="statement__mark" aria-hidden="true">빛</span>
+    <span
+      class="statement__mark"
+      [class.statement__mark--word]="language() === 'ko'"
+      aria-hidden="true"
+    >
+      {{ language() === "ko" ? "Light" : "빛" }}
+    </span>
   </section>
 
   <section id="works" class="works section-shell" aria-labelledby="works-title">

@@ -50,6 +50,20 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
       },
       scroll: 'Scroll to enter',
       artworkLabel: 'Selected work · 2013',
+      museum: {
+        aout: {
+          title: 'August',
+          medium: 'Mixed media',
+        },
+        twin: {
+          title: 'Twin but Twin V',
+          medium: 'Ash & mixed media',
+        },
+        tears: {
+          title: 'Tears in the Ocean and the Sky',
+          medium: 'Ash & mixed media on canvas',
+        },
+      },
       statementEyebrow: 'The practice',
       statement:
         'Working with ash, memory and light, Francesca Cho transforms traces of loss into enduring images of hope.',
@@ -93,6 +107,20 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
       },
       scroll: 'Faire défiler pour entrer',
       artworkLabel: 'Œuvre sélectionnée · 2013',
+      museum: {
+        aout: {
+          title: 'Août',
+          medium: 'Techniques mixtes',
+        },
+        twin: {
+          title: 'Jumeaux mais jumeaux V',
+          medium: 'Cendre et techniques mixtes',
+        },
+        tears: {
+          title: 'Larmes dans l’océan et le ciel',
+          medium: 'Cendre et techniques mixtes sur toile',
+        },
+      },
       statementEyebrow: 'La pratique',
       statement:
         'À travers la cendre, la mémoire et la lumière, Francesca Cho transforme les traces de la perte en images durables d’espoir.',
@@ -137,6 +165,20 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
       },
       scroll: '스크롤하여 들어가기',
       artworkLabel: '선정 작품 · 2013',
+      museum: {
+        aout: {
+          title: '8월',
+          medium: '혼합 매체',
+        },
+        twin: {
+          title: '쌍둥이지만 쌍둥이 V',
+          medium: '재와 혼합 매체',
+        },
+        tears: {
+          title: '바다와 하늘의 눈물',
+          medium: '캔버스에 재와 혼합 매체',
+        },
+      },
       statementEyebrow: '작업 세계',
       statement:
         '조 프란체스카는 재, 기억, 빛을 통해 상실의 흔적을 오래 지속되는 희망의 이미지로 변환합니다.',
@@ -289,7 +331,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
       radius: Math.random() * 1.8 + 0.25,
       speed: Math.random() * 0.16 + 0.035,
       drift: (Math.random() - 0.5) * 0.08,
-      alpha: Math.random() * 0.32 + 0.06,
+      alpha: Math.random() * 0.4 + 0.08,
     }));
   }
 
