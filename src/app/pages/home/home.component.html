@@ -1,0 +1,345 @@
+<header
+  class="site-header"
+  [class.site-header--dark]="heroProgress() > 0.16"
+>
+  <a class="site-header__brand" href="#top" aria-label="Francesca Cho, home">
+    <span>FC</span>
+  </a>
+
+  <nav class="site-header__nav" aria-label="Primary navigation">
+    <a href="#works">{{ copy[language()].menu.works }}</a>
+    <a href="#exhibitions">{{ copy[language()].menu.exhibitions }}</a>
+    <a href="#biography">{{ copy[language()].menu.biography }}</a>
+    <a href="#critics">{{ copy[language()].menu.critics }}</a>
+    <a href="#publications">{{ copy[language()].menu.publications }}</a>
+    <a href="#contact">{{ copy[language()].menu.contact }}</a>
+  </nav>
+
+  <div class="language-switcher" aria-label="Language selection">
+    <button
+      type="button"
+      [class.is-active]="language() === 'en'"
+      (click)="setLanguage('en')"
+      aria-label="English"
+    >
+      EN
+    </button>
+    <button
+      type="button"
+      [class.is-active]="language() === 'fr'"
+      (click)="setLanguage('fr')"
+      aria-label="Français"
+    >
+      FR
+    </button>
+    <button
+      type="button"
+      [class.is-active]="language() === 'ko'"
+      (click)="setLanguage('ko')"
+      aria-label="한국어"
+    >
+      한국어
+    </button>
+  </div>
+
+  <button
+    class="menu-toggle"
+    type="button"
+    [attr.aria-expanded]="menuOpen()"
+    aria-controls="mobile-menu"
+    aria-label="Toggle menu"
+    (click)="toggleMenu()"
+  >
+    <span></span>
+    <span></span>
+  </button>
+</header>
+
+<div
+  id="mobile-menu"
+  class="mobile-menu"
+  [class.mobile-menu--open]="menuOpen()"
+  [attr.aria-hidden]="!menuOpen()"
+>
+  <nav aria-label="Mobile navigation">
+    <a href="#works" (click)="closeMenu()">{{ copy[language()].menu.works }}</a>
+    <a href="#exhibitions" (click)="closeMenu()">{{
+      copy[language()].menu.exhibitions
+    }}</a>
+    <a href="#biography" (click)="closeMenu()">{{
+      copy[language()].menu.biography
+    }}</a>
+    <a href="#critics" (click)="closeMenu()">{{
+      copy[language()].menu.critics
+    }}</a>
+    <a href="#publications" (click)="closeMenu()">{{
+      copy[language()].menu.publications
+    }}</a>
+    <a href="#contact" (click)="closeMenu()">{{
+      copy[language()].menu.contact
+    }}</a>
+  </nav>
+  <div class="mobile-menu__languages">
+    <button type="button" (click)="setLanguage('en')">English</button>
+    <button type="button" (click)="setLanguage('fr')">Français</button>
+    <button type="button" (click)="setLanguage('ko')">한국어</button>
+  </div>
+</div>
+
+<main id="top">
+  <section #hero class="hero" aria-labelledby="hero-title">
+    <div class="hero__sticky">
+      <div class="hero__wall"></div>
+
+      <div class="hero__intro-scene">
+        <div class="hero__crop" aria-hidden="true">
+          <img
+            src="assets/images/paintings/2013/home-hero.jpeg"
+            alt=""
+            fetchpriority="high"
+          />
+        </div>
+
+        <div class="hero__shade" aria-hidden="true"></div>
+        <canvas #ashCanvas class="hero__ash" aria-hidden="true"></canvas>
+
+        <div class="hero__intro">
+          <p class="hero__kicker">Visual artist · 조 프란체스카</p>
+          <h1 id="hero-title">Francesca Cho</h1>
+          <p class="hero__descriptor">
+            {{ copy[language()].descriptor }}
+          </p>
+        </div>
+
+        <div class="hero__scroll" aria-hidden="true">
+          <span>{{ copy[language()].scroll }}</span>
+          <i></i>
+        </div>
+      </div>
+
+      <div class="hero__museum" aria-label="Selected paintings">
+        <figure class="hero__museum-view hero__museum-view--one">
+          <div class="hero__art-object hero__art-object--landscape">
+            <img
+              src="assets/images/paintings/2020-2021/aout-2021.png"
+              alt="Aout, 2021, by Francesca Cho"
+            />
+          </div>
+          <figcaption class="hero__caption">
+            <span><em>Aout</em> · 2021</span>
+            <span>Mixed media · 61 × 40 cm</span>
+          </figcaption>
+        </figure>
+
+        <figure class="hero__museum-view hero__museum-view--two">
+          <div class="hero__art-object hero__art-object--panoramic">
+            <img
+              src="assets/images/paintings/2018-2019/twin-but-twin-5-2018-2019.png"
+              alt="Twin but Twin V, 2018–2019, by Francesca Cho"
+            />
+          </div>
+          <figcaption class="hero__caption">
+            <span><em>Twin but Twin V</em> · 2018—2019</span>
+            <span>Ash &amp; mixed media · 50 × 140 cm</span>
+          </figcaption>
+        </figure>
+
+        <figure class="hero__museum-view hero__museum-view--three">
+          <div class="hero__art-object hero__art-object--portrait">
+            <img
+              src="assets/images/paintings/2017/larmes-dans-locean-et-le-ciel-2017.png"
+              alt="Larmes dans l’océan et le ciel, 2017, by Francesca Cho"
+            />
+          </div>
+          <figcaption class="hero__caption">
+            <span><em>Larmes dans l’océan et le ciel</em> · 2017</span>
+            <span>Ash &amp; mixed media on canvas · 153 × 194 cm</span>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="statement section-shell" aria-labelledby="statement-title">
+    <p class="eyebrow">{{ copy[language()].statementEyebrow }}</p>
+    <h2 id="statement-title">{{ copy[language()].statement }}</h2>
+    <span class="statement__mark" aria-hidden="true">빛</span>
+  </section>
+
+  <section id="works" class="works section-shell" aria-labelledby="works-title">
+    <div class="section-heading">
+      <p class="eyebrow">{{ copy[language()].worksEyebrow }}</p>
+      <h2 id="works-title">{{ copy[language()].worksTitle }}</h2>
+      <a class="text-link" href="#works-list">
+        {{ copy[language()].menu.works }}
+        <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+
+    <div id="works-list" class="works__walk">
+      <a class="artwork artwork--portrait artwork--hope" href="#contact">
+        <figure>
+          <div class="artwork__image">
+            <img
+              src="assets/images/paintings/2025/hope-2025-home.jpg"
+              alt="Hope, 2025, by Francesca Cho"
+              loading="lazy"
+            />
+          </div>
+          <figcaption>
+            <span><em>Hope</em>, 2025</span>
+            <span>Ash on board</span>
+          </figcaption>
+        </figure>
+        <span class="artwork__cta">{{ copy[language()].viewWork }} ↗</span>
+      </a>
+
+      <a class="artwork artwork--landscape artwork--names" href="#contact">
+        <figure>
+          <div class="artwork__image">
+            <img
+              src="assets/images/paintings/2025/call-your-names-home.jpg"
+              alt="Call Your Names, 2022–2025, by Francesca Cho"
+              loading="lazy"
+            />
+          </div>
+          <figcaption>
+            <span><em>Call Your Names</em>, 2022—2025</span>
+            <span>Ash &amp; mixed media on canvas</span>
+          </figcaption>
+        </figure>
+        <span class="artwork__cta">{{ copy[language()].viewWork }} ↗</span>
+      </a>
+
+      <a class="artwork artwork--portrait artwork--peace" href="#contact">
+        <figure>
+          <div class="artwork__image">
+            <img
+              src="assets/images/paintings/2025/pray-for-peace-home.jpg"
+              alt="Pray for Peace, 2025, by Francesca Cho"
+              loading="lazy"
+            />
+          </div>
+          <figcaption>
+            <span><em>Pray for Peace</em>, 2025</span>
+            <span>Ash &amp; oil on canvas</span>
+          </figcaption>
+        </figure>
+        <span class="artwork__cta">{{ copy[language()].viewWork }} ↗</span>
+      </a>
+    </div>
+  </section>
+
+  <section
+    id="exhibitions"
+    class="exhibition section-shell"
+    aria-labelledby="exhibition-title"
+  >
+    <div class="exhibition__poster">
+      <img
+        src="assets/images/exhibitions/2026/confluence-2026.jpg"
+        alt="Poster for the Confluence exhibition in Avignon, July 2026"
+        loading="lazy"
+      />
+      <span aria-hidden="true">2026</span>
+    </div>
+
+    <div class="exhibition__content">
+      <p class="eyebrow">{{ copy[language()].exhibitionEyebrow }}</p>
+      <h2 id="exhibition-title">{{ copy[language()].exhibitionTitle }}</h2>
+      <div class="exhibition__meta">
+        <p>{{ copy[language()].exhibitionDate }}</p>
+        <p>{{ copy[language()].exhibitionPlace }}</p>
+      </div>
+      <p class="exhibition__body">{{ copy[language()].exhibitionBody }}</p>
+      <a class="text-link" href="#publications">
+        {{ copy[language()].explore }}
+        <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+  </section>
+
+  <section id="critics" class="quote" aria-labelledby="quote-title">
+    <div class="quote__texture" aria-hidden="true"></div>
+    <div class="quote__inner">
+      <span class="quote__mark" aria-hidden="true">“</span>
+      <blockquote id="quote-title">
+        {{ copy[language()].quote }}
+      </blockquote>
+      <p>{{ copy[language()].quoteBy }}</p>
+    </div>
+  </section>
+
+  <section
+    id="biography"
+    class="biography section-shell"
+    aria-labelledby="biography-title"
+  >
+    <div class="biography__route" aria-hidden="true">
+      <span>Seoul</span>
+      <i></i>
+      <span>London</span>
+      <i></i>
+      <span>Avignon</span>
+    </div>
+    <div class="biography__content">
+      <p class="eyebrow">{{ copy[language()].biographyEyebrow }}</p>
+      <h2 id="biography-title">{{ copy[language()].biographyTitle }}</h2>
+      <p>{{ copy[language()].biographyBody }}</p>
+      <a class="text-link" href="#contact">
+        {{ copy[language()].biographyCta }}
+        <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+  </section>
+
+  <section id="publications" class="institutions section-shell">
+    <p class="eyebrow">{{ copy[language()].pressEyebrow }}</p>
+    <div class="institutions__list">
+      <span>Tate Modern</span>
+      <span>Miró Foundation</span>
+      <span>Whanki Museum</span>
+      <span>Korean Cultural Centre</span>
+      <span>London Biennale</span>
+    </div>
+  </section>
+
+  <section id="contact" class="contact" aria-labelledby="contact-title">
+    <div class="contact__intro">
+      <p class="eyebrow">{{ copy[language()].contactEyebrow }}</p>
+      <h2 id="contact-title">{{ copy[language()].contactTitle }}</h2>
+      <p>{{ copy[language()].contactBody }}</p>
+    </div>
+
+    <form class="contact__form">
+      <label>
+        <span>{{ copy[language()].formName }}</span>
+        <input type="text" autocomplete="name" />
+      </label>
+      <label>
+        <span>{{ copy[language()].formEmail }}</span>
+        <input type="email" autocomplete="email" />
+      </label>
+      <label class="contact__message">
+        <span>{{ copy[language()].formMessage }}</span>
+        <textarea rows="1"></textarea>
+      </label>
+      <button type="button">
+        {{ copy[language()].formSubmit }}
+        <span aria-hidden="true">↗</span>
+      </button>
+    </form>
+
+    <footer class="contact__footer">
+      <span>© Francesca Cho 2026</span>
+      <span>Atelier FCW · Avignon, France</span>
+      <a
+        href="https://www.instagram.com/chofrancesca/"
+        target="_blank"
+        rel="noreferrer"
+      >
+        Instagram ↗
+      </a>
+    </footer>
+  </section>
+</main>
