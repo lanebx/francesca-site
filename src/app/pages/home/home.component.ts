@@ -70,6 +70,20 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
       worksEyebrow: 'Selected works',
       worksTitle: 'A quiet encounter with memory, material and light.',
       viewWork: 'View work',
+      selectedWorks: {
+        hope: {
+          title: 'Hope',
+          medium: 'Ash on board',
+        },
+        ash: {
+          title: 'Ash Painting I',
+          medium: 'Ash & mixed media on canvas',
+        },
+        peace: {
+          title: 'Pray for Peace',
+          medium: 'Ash & oil on canvas',
+        },
+      },
       exhibitionEyebrow: 'Latest exhibition',
       exhibitionTitle: 'Confluence',
       exhibitionDate: '04—18 July 2026',
@@ -128,6 +142,20 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
       worksTitle:
         'Une rencontre silencieuse avec la mémoire, la matière et la lumière.',
       viewWork: 'Voir l’œuvre',
+      selectedWorks: {
+        hope: {
+          title: 'Espoir',
+          medium: 'Cendre sur panneau',
+        },
+        ash: {
+          title: 'Peinture de cendre I',
+          medium: 'Cendre et techniques mixtes sur toile',
+        },
+        peace: {
+          title: 'Prière pour la paix',
+          medium: 'Cendre et huile sur toile',
+        },
+      },
       exhibitionEyebrow: 'Dernière exposition',
       exhibitionTitle: 'Confluence',
       exhibitionDate: '04—18 juillet 2026',
@@ -185,6 +213,20 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
       worksEyebrow: '선정 작품',
       worksTitle: '기억과 물질, 빛을 마주하는 고요한 시간.',
       viewWork: '작품 보기',
+      selectedWorks: {
+        hope: {
+          title: '희망',
+          medium: '보드에 재',
+        },
+        ash: {
+          title: '재 회화 I',
+          medium: '캔버스에 재와 혼합 매체',
+        },
+        peace: {
+          title: '평화를 위한 기도',
+          medium: '캔버스에 재와 유채',
+        },
+      },
       exhibitionEyebrow: '최근 전시',
       exhibitionTitle: 'Confluence',
       exhibitionDate: '2026년 7월 4일—18일',

@@ -195,30 +195,42 @@
           <div class="artwork__image">
             <img
               src="assets/images/paintings/2025/hope-2025-home.jpg"
-              alt="Hope, 2025, by Francesca Cho"
+              [alt]="
+                copy[language()].selectedWorks.hope.title +
+                ', 2025, Francesca Cho'
+              "
               loading="lazy"
             />
           </div>
           <figcaption>
-            <span><em>Hope</em>, 2025</span>
-            <span>Ash on board</span>
+            <span
+              ><em>{{ copy[language()].selectedWorks.hope.title }}</em>,
+              2025</span
+            >
+            <span>{{ copy[language()].selectedWorks.hope.medium }}</span>
           </figcaption>
         </figure>
         <span class="artwork__cta">{{ copy[language()].viewWork }} ↗</span>
       </a>
 
-      <a class="artwork artwork--landscape artwork--names" href="#contact">
+      <a class="artwork artwork--landscape artwork--ash" href="#contact">
         <figure>
           <div class="artwork__image">
             <img
-              src="assets/images/paintings/2025/call-your-names-home.jpg"
-              alt="Call Your Names, 2022–2025, by Francesca Cho"
+              src="assets/images/paintings/2017/ash-painting-1-2017.png"
+              [alt]="
+                copy[language()].selectedWorks.ash.title +
+                ', 2017, Francesca Cho'
+              "
               loading="lazy"
             />
           </div>
           <figcaption>
-            <span><em>Call Your Names</em>, 2022—2025</span>
-            <span>Ash &amp; mixed media on canvas</span>
+            <span
+              ><em>{{ copy[language()].selectedWorks.ash.title }}</em>,
+              2017</span
+            >
+            <span>{{ copy[language()].selectedWorks.ash.medium }}</span>
           </figcaption>
         </figure>
         <span class="artwork__cta">{{ copy[language()].viewWork }} ↗</span>
@@ -229,13 +241,19 @@
           <div class="artwork__image">
             <img
               src="assets/images/paintings/2025/pray-for-peace-home.jpg"
-              alt="Pray for Peace, 2025, by Francesca Cho"
+              [alt]="
+                copy[language()].selectedWorks.peace.title +
+                ', 2025, Francesca Cho'
+              "
               loading="lazy"
             />
           </div>
           <figcaption>
-            <span><em>Pray for Peace</em>, 2025</span>
-            <span>Ash &amp; oil on canvas</span>
+            <span
+              ><em>{{ copy[language()].selectedWorks.peace.title }}</em>,
+              2025</span
+            >
+            <span>{{ copy[language()].selectedWorks.peace.medium }}</span>
           </figcaption>
         </figure>
         <span class="artwork__cta">{{ copy[language()].viewWork }} ↗</span>
