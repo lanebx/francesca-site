@@ -21,6 +21,11 @@ html {
   background: var(--warm-white);
 }
 
+html.works-scroll {
+  scroll-padding-top: 142px;
+  scroll-snap-type: y mandatory;
+}
+
 body {
   margin: 0;
   min-width: 320px;
@@ -63,4 +68,10 @@ img {
 ::selection {
   background: var(--wine);
   color: var(--paper);
+}
+
+@media (max-width: 900px) {
+  html.works-scroll {
+    scroll-padding-top: 124px;
+  }
 }

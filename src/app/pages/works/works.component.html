@@ -1,0 +1,179 @@
+<header class="works-header">
+  <a class="works-header__brand" routerLink="/">
+    <span>FC</span>
+    <strong>{{ copy[language()].back }}</strong>
+  </a>
+
+  <nav class="works-header__nav" aria-label="Primary navigation">
+    <a routerLink="/works" aria-current="page">{{ copy[language()].title }}</a>
+    <a routerLink="/" fragment="exhibitions">{{
+      copy[language()].exhibitions
+    }}</a>
+    <a routerLink="/" fragment="biography">{{ copy[language()].biography }}</a>
+    <a routerLink="/" fragment="contact">{{ copy[language()].contact }}</a>
+  </nav>
+
+  <div class="works-header__languages" aria-label="Language selection">
+    <button
+      type="button"
+      [class.is-active]="language() === 'en'"
+      (click)="setLanguage('en')"
+    >
+      EN
+    </button>
+    <button
+      type="button"
+      [class.is-active]="language() === 'fr'"
+      (click)="setLanguage('fr')"
+    >
+      FR
+    </button>
+    <button
+      type="button"
+      [class.is-active]="language() === 'ko'"
+      (click)="setLanguage('ko')"
+    >
+      한국어
+    </button>
+  </div>
+
+  <button
+    class="works-header__menu"
+    type="button"
+    [attr.aria-expanded]="menuOpen()"
+    aria-controls="works-mobile-menu"
+    (click)="toggleMenu()"
+  >
+    <span></span>
+    <span></span>
+    <span class="sr-only">Menu</span>
+  </button>
+</header>
+
+<div
+  id="works-mobile-menu"
+  class="works-mobile-menu"
+  [class.is-open]="menuOpen()"
+  [attr.aria-hidden]="!menuOpen()"
+>
+  <a routerLink="/works" (click)="closeMenu()">{{ copy[language()].title }}</a>
+  <a routerLink="/" fragment="exhibitions" (click)="closeMenu()">{{
+    copy[language()].exhibitions
+  }}</a>
+  <a routerLink="/" fragment="biography" (click)="closeMenu()">{{
+    copy[language()].biography
+  }}</a>
+  <a routerLink="/" fragment="contact" (click)="closeMenu()">{{
+    copy[language()].contact
+  }}</a>
+</div>
+
+<main>
+  <section class="works-intro" aria-labelledby="works-title">
+    <p class="works-intro__index">01 — {{ works.length.toString().padStart(2, "0") }}</p>
+    <h1 id="works-title">{{ copy[language()].title }}</h1>
+    <p class="works-intro__copy">{{ copy[language()].intro }}</p>
+    <span class="works-intro__line" aria-hidden="true"></span>
+  </section>
+
+  <nav class="filter-bar" aria-label="Filter artworks">
+    <div class="filter-bar__inner">
+      @for (filter of filters; track filter.id) {
+        <button
+          type="button"
+          [class.is-active]="activeFilter() === filter.id"
+          [attr.aria-pressed]="activeFilter() === filter.id"
+          (click)="setFilter(filter.id)"
+        >
+          {{ filter.label[language()] }}
+        </button>
+      }
+
+      <span class="filter-bar__count">
+        {{ filteredWorks().length.toString().padStart(2, "0") }}
+        {{ copy[language()].count }}
+      </span>
+    </div>
+  </nav>
+
+  <section
+    class="works-gallery"
+    [class.is-filtering]="filtering()"
+    aria-live="polite"
+  >
+    @for (block of galleryBlocks(); track block.id) {
+      <div
+        [class]="'gallery-block gallery-block--' + block.kind + ' gallery-block--variant-' + block.variant"
+      >
+        @for (item of block.items; track item.artwork.slug) {
+          <article
+            #scene
+            class="artwork-card"
+            [class.artwork-card--mounted]="item.artwork.galleryMatte"
+            [class.artwork-card--mobile-crop]="
+              item.artwork.mobileGalleryCrop
+            "
+          >
+            <a
+              class="artwork-card__link"
+              [routerLink]="['/works', item.artwork.slug]"
+              [queryParams]="{ lang: language() }"
+              [attr.aria-label]="
+                copy[language()].open + ': ' + item.artwork.title
+              "
+            >
+              <figure>
+                <div class="artwork-card__media">
+                  <img
+                    [src]="item.artwork.views.artwork"
+                    [alt]="
+                      item.artwork.title +
+                      ', ' +
+                      item.artwork.year +
+                      ', Francesca Cho'
+                    "
+                    loading="lazy"
+                    decoding="async"
+                  />
+
+                  <span class="artwork-card__view">
+                    {{ copy[language()].open }}
+                    <i aria-hidden="true">↗</i>
+                  </span>
+                </div>
+
+                <figcaption>
+                  <div class="artwork-card__heading">
+                    <span class="artwork-card__number" aria-hidden="true">
+                      {{ (item.index + 1).toString().padStart(2, "0") }}
+                    </span>
+                    <h2>{{ item.artwork.title }}</h2>
+                  </div>
+
+                  <div class="artwork-card__meta">
+                    <span class="artwork-card__year">{{
+                      item.artwork.year
+                    }}</span>
+                    <span>{{ item.artwork.medium[language()] }}</span>
+                    @if (item.artwork.dimensions) {
+                      <span>{{ item.artwork.dimensions }}</span>
+                    }
+                  </div>
+                </figcaption>
+              </figure>
+            </a>
+          </article>
+        }
+      </div>
+    }
+  </section>
+
+  <footer class="works-footer">
+    <p>Francesca Cho</p>
+    <a routerLink="/" fragment="contact">
+      {{ copy[language()].contact }}
+      <span aria-hidden="true">↗</span>
+    </a>
+    <p>Avignon · France</p>
+  </footer>
+</main>

@@ -25,12 +25,25 @@ export const routes: Routes = [
           ),
       },
       {
-        path: 'gallery',
-        title: 'Gallery | Francesca',
+        path: 'works',
+        title: 'Works | Francesca Cho',
         loadComponent: () =>
-          import('./pages/gallery/gallery.component').then(
-            (component) => component.GalleryComponent,
+          import('./pages/works/works.component').then(
+            (component) => component.WorksComponent,
           ),
+      },
+      {
+        path: 'works/:slug',
+        title: 'Artwork | Francesca Cho',
+        loadComponent: () =>
+          import('./pages/artwork-detail/artwork-detail.component').then(
+            (component) => component.ArtworkDetailComponent,
+          ),
+      },
+      {
+        path: 'gallery',
+        pathMatch: 'full',
+        redirectTo: 'works',
       },
       {
         path: 'exhibitions',

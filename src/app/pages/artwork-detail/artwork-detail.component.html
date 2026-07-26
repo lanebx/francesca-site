@@ -1,0 +1,162 @@
+<header class="detail-header">
+  <a
+    class="detail-header__back"
+    routerLink="/works"
+    [queryParams]="{ lang: language() }"
+  >
+    <span aria-hidden="true">←</span>
+    {{ copy[language()].back }}
+  </a>
+
+  <a class="detail-header__brand" routerLink="/">Francesca Cho</a>
+
+  <div class="detail-header__languages" aria-label="Language selection">
+    <button
+      type="button"
+      [class.is-active]="language() === 'en'"
+      (click)="setLanguage('en')"
+    >
+      EN
+    </button>
+    <button
+      type="button"
+      [class.is-active]="language() === 'fr'"
+      (click)="setLanguage('fr')"
+    >
+      FR
+    </button>
+    <button
+      type="button"
+      [class.is-active]="language() === 'ko'"
+      (click)="setLanguage('ko')"
+    >
+      한국어
+    </button>
+  </div>
+</header>
+
+@if (artwork(); as current) {
+  <main class="artwork-detail">
+    <section class="artwork-viewer" aria-label="Artwork views">
+      <div
+        class="artwork-viewer__stage"
+        tabindex="0"
+        (pointerdown)="onPointerDown($event)"
+        (pointerup)="onPointerUp($event)"
+        (keydown.arrowleft)="previousView()"
+        (keydown.arrowright)="nextView()"
+      >
+        @for (view of views(); track view.src; let index = $index) {
+          <img
+            [class.is-active]="activeView() === index"
+            [src]="view.src"
+            [alt]="
+              current.title +
+              ', ' +
+              current.year +
+              (view.label === 'Artwork' ? '' : ', ' + view.label)
+            "
+            [attr.aria-hidden]="activeView() !== index"
+            [attr.fetchpriority]="index === 0 ? 'high' : null"
+            [attr.loading]="index === 0 ? 'eager' : 'lazy'"
+            draggable="false"
+          />
+        }
+
+        @if (views().length > 1) {
+          <button
+            class="artwork-viewer__arrow artwork-viewer__arrow--previous"
+            type="button"
+            (click)="previousView()"
+            aria-label="Previous image"
+          >
+            ←
+          </button>
+          <button
+            class="artwork-viewer__arrow artwork-viewer__arrow--next"
+            type="button"
+            (click)="nextView()"
+            aria-label="Next image"
+          >
+            →
+          </button>
+        }
+      </div>
+
+      @if (views().length > 1) {
+        <div class="artwork-viewer__tabs" aria-label="Choose artwork view">
+          @for (view of views(); track view.src; let index = $index) {
+            <button
+              type="button"
+              [class.is-active]="activeView() === index"
+              (click)="setView(index)"
+            >
+              {{ view.label === "Detail" ? copy[language()].detail : view.label }}
+              <span>{{ (index + 1).toString().padStart(2, "0") }}</span>
+            </button>
+          }
+        </div>
+      }
+    </section>
+
+    <aside class="artwork-information">
+      <p class="artwork-information__index">
+        {{ (artworkIndex() + 1).toString().padStart(2, "0") }}
+        /
+        {{ totalWorks }}
+      </p>
+
+      <h1>{{ current.title }}</h1>
+      <p class="artwork-information__year">{{ current.year }}</p>
+
+      <dl>
+        <div>
+          <dt>{{ copy[language()].medium }}</dt>
+          <dd>{{ current.medium[language()] }}</dd>
+        </div>
+        @if (current.dimensions) {
+          <div>
+            <dt>Dimensions</dt>
+            <dd>{{ current.dimensions }}</dd>
+          </div>
+        }
+        <div>
+          <dt>{{ copy[language()].category }}</dt>
+          <dd>{{ categoryLabel(current.category) }}</dd>
+        </div>
+      </dl>
+
+      <div class="artwork-information__description">
+        <p class="eyebrow">{{ copy[language()].about }}</p>
+        <p>{{ current.description[language()] }}</p>
+      </div>
+
+      <a class="inquiry-link" routerLink="/" fragment="contact">
+        {{ copy[language()].inquire }}
+        <span aria-hidden="true">↗</span>
+      </a>
+    </aside>
+
+    <nav class="artwork-neighbours" aria-label="Browse artworks">
+      <a
+        [routerLink]="['/works', previousArtwork().slug]"
+        [queryParams]="{ lang: language() }"
+      >
+        <span>{{ copy[language()].previous }}</span>
+        <strong>{{ previousArtwork().title }}</strong>
+      </a>
+      <a
+        [routerLink]="['/works', nextArtwork().slug]"
+        [queryParams]="{ lang: language() }"
+      >
+        <span>{{ copy[language()].next }}</span>
+        <strong>{{ nextArtwork().title }}</strong>
+      </a>
+    </nav>
+  </main>
+} @else {
+  <main class="artwork-missing">
+    <p>{{ copy[language()].unavailable }}</p>
+    <a routerLink="/works">{{ copy[language()].unavailableCta }} →</a>
+  </main>
+}

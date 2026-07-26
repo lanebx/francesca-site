@@ -7,6 +7,7 @@ import {
   ViewChild,
   signal,
 } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 type Language = 'en' | 'fr' | 'ko';
 
@@ -22,6 +23,7 @@ interface AshParticle {
 @Component({
   selector: 'app-home',
   standalone: true,
+  imports: [RouterLink],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

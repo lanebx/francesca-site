@@ -7,7 +7,7 @@
   </a>
 
   <nav class="site-header__nav" aria-label="Primary navigation">
-    <a href="#works">{{ copy[language()].menu.works }}</a>
+    <a routerLink="/works">{{ copy[language()].menu.works }}</a>
     <a href="#exhibitions">{{ copy[language()].menu.exhibitions }}</a>
     <a href="#biography">{{ copy[language()].menu.biography }}</a>
     <a href="#critics">{{ copy[language()].menu.critics }}</a>
@@ -62,7 +62,9 @@
   [attr.aria-hidden]="!menuOpen()"
 >
   <nav aria-label="Mobile navigation">
-    <a href="#works" (click)="closeMenu()">{{ copy[language()].menu.works }}</a>
+    <a routerLink="/works" (click)="closeMenu()">{{
+      copy[language()].menu.works
+    }}</a>
     <a href="#exhibitions" (click)="closeMenu()">{{
       copy[language()].menu.exhibitions
     }}</a>
@@ -183,14 +185,18 @@
     <div class="section-heading">
       <p class="eyebrow">{{ copy[language()].worksEyebrow }}</p>
       <h2 id="works-title">{{ copy[language()].worksTitle }}</h2>
-      <a class="text-link" href="#works-list">
+      <a class="text-link" routerLink="/works">
         {{ copy[language()].menu.works }}
         <span aria-hidden="true">↗</span>
       </a>
     </div>
 
     <div id="works-list" class="works__walk">
-      <a class="artwork artwork--portrait artwork--left" href="#contact">
+      <a
+        class="artwork artwork--portrait artwork--left"
+        routerLink="/works/hope-2025"
+        [queryParams]="{ lang: language() }"
+      >
         <figure>
           <div class="artwork__image">
             <img
@@ -213,7 +219,11 @@
         <span class="artwork__cta">{{ copy[language()].viewWork }} ↗</span>
       </a>
 
-      <a class="artwork artwork--landscape artwork--center" href="#contact">
+      <a
+        class="artwork artwork--landscape artwork--center"
+        routerLink="/works/ash-painting-i-2017"
+        [queryParams]="{ lang: language() }"
+      >
         <figure>
           <div class="artwork__image">
             <img
@@ -238,7 +248,8 @@
 
       <a
         class="artwork artwork--portrait artwork--left artwork--offset"
-        href="#contact"
+        routerLink="/works/pray-for-peace-2025"
+        [queryParams]="{ lang: language() }"
       >
         <figure>
           <div class="artwork__image">

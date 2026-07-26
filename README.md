@@ -23,7 +23,9 @@ The development server is available at `http://localhost:4200`.
 | --- | --- |
 | `/` | Home |
 | `/about` | About |
-| `/gallery` | Gallery |
+| `/works` | Spatial editorial Works index |
+| `/works/:slug` | Individual artwork detail |
+| `/gallery` | Redirect to Works |
 | `/exhibitions` | Exhibitions |
 | `/contact` | Contact |
 | any unknown URL | Not found |
@@ -76,14 +78,12 @@ src/app/
 │   ├── about/
 │   ├── contact/
 │   ├── exhibitions/
-│   ├── gallery/
+│   ├── artwork-detail/
 │   ├── home/
+│   ├── works/
 │   └── not-found/
 └── shared/
     ├── components/
     ├── directives/
     └── pipes/
 ```
-
-The page HTML and SCSS files are intentionally empty. Visual design and content
-will be added only after approval.
