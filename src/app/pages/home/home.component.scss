@@ -170,7 +170,7 @@
 .hero__sticky {
   position: sticky;
   top: 0;
-  height: 100svh;
+  height: 100dvh;
   overflow: hidden;
   background: var(--ink);
   isolation: isolate;
@@ -550,7 +550,7 @@
   transform: translateY(0);
 }
 
-.artwork--hope {
+.artwork--left {
   margin-left: 9%;
 
   .artwork__image {
@@ -559,7 +559,7 @@
   }
 }
 
-.artwork--ash {
+.artwork--center {
   margin: 16rem 4% 0 auto;
 
   .artwork__image {
@@ -568,13 +568,17 @@
   }
 }
 
-.artwork--peace {
+.artwork--right {
   margin: 17rem 0 0 48%;
 
   .artwork__image {
     width: clamp(290px, 34vw, 520px);
     aspect-ratio: 1190 / 1322;
   }
+}
+
+.artwork--offset {
+  margin-top: 17rem;
 }
 
 .exhibition {
@@ -603,7 +607,7 @@
 
   > span {
     position: absolute;
-    bottom: -0.05em;
+    bottom: -0.75em;
     left: -0.15em;
     color: rgba(109, 28, 24, 0.12);
     font-family: var(--serif);
@@ -1144,18 +1148,18 @@
     }
   }
 
-  .artwork--hope {
+  .artwork--left {
     .artwork__image {
       width: 76%;
       margin-left: auto;
     }
   }
 
-  .artwork--ash .artwork__image {
+  .artwork--center .artwork__image {
     width: 100%;
   }
 
-  .artwork--peace {
+  .artwork--right {
     .artwork__image {
       width: 82%;
     }
@@ -1296,7 +1300,7 @@
   }
 
   .hero {
-    height: 100svh;
+    height: 100dvh;
   }
 
   .hero__crop {
