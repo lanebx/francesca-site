@@ -1,4 +1,4 @@
-import { ARTWORK_FILTERS, ARTWORKS } from './artworks';
+import { ARTWORK_FILTERS, ARTWORKS, artworkTitle } from './artworks';
 
 describe('artwork catalogue', () => {
   it('uses a unique route slug for every artwork', () => {
@@ -16,6 +16,9 @@ describe('artwork catalogue', () => {
       expect(artwork.description.en).toBeTruthy();
       expect(artwork.description.fr).toBeTruthy();
       expect(artwork.description.ko).toBeTruthy();
+      expect(artworkTitle(artwork, 'en')).toBeTruthy();
+      expect(artworkTitle(artwork, 'fr')).toBeTruthy();
+      expect(artworkTitle(artwork, 'ko')).toBeTruthy();
     });
   });
 

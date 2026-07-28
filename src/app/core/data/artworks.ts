@@ -2,6 +2,7 @@ import {
   Artwork,
   ArtworkFilter,
   LocalizedText,
+  SiteLanguage,
 } from '../models/artwork.model';
 
 const localized = (
@@ -9,6 +10,170 @@ const localized = (
   fr: string,
   ko: string,
 ): LocalizedText => ({ en, fr, ko });
+
+const artworkTitles: Record<string, LocalizedText> = {
+  'hope-2025': localized('Hope', 'Espoir', '희망'),
+  'pray-for-peace-2025': localized(
+    'Pray for Peace',
+    'Prière pour la paix',
+    '평화를 위한 기도',
+  ),
+  'la-vie-renaissance-des-cendres-2025': localized(
+    'Life, Rebirth from Ashes',
+    'La Vie, Renaissance des Cendres',
+    '삶, 재에서의 부활',
+  ),
+  'love-and-peace-2024-2025': localized(
+    'Love & Peace',
+    'Amour & Paix',
+    '사랑과 평화',
+  ),
+  'pray-for-no-9-2024': localized(
+    'Pray for No. 9',
+    'Prière no 9',
+    '기도 9번',
+  ),
+  'endured-spirit-2023': localized(
+    'Endured Spirit',
+    'Esprit endurant',
+    '견뎌낸 정신',
+  ),
+  'untitled-2023': localized('Untitled', 'Sans titre', '무제'),
+  'stop-war-2022': localized('Stop War', 'Arrêtez la guerre', '전쟁을 멈춰라'),
+  'pour-tous-les-coeurs-innocents-1-2022': localized(
+    'For All Innocent Hearts No. 1',
+    'Pour tous les cœurs innocents no 1',
+    '모든 순수한 마음을 위하여 1번',
+  ),
+  'pour-tous-les-coeurs-innocents-2-2022': localized(
+    'For All Innocent Hearts No. 2',
+    'Pour tous les cœurs innocents no 2',
+    '모든 순수한 마음을 위하여 2번',
+  ),
+  'untitled-blue-and-gold-2022': localized(
+    'Untitled, Blue and Gold',
+    'Sans titre, bleu et or',
+    '무제, 파랑과 금색',
+  ),
+  'aucun-proche-2020-2021': localized(
+    'No One Close',
+    'Aucun proche',
+    '가까운 이 없이',
+  ),
+  'aout-2021': localized('August', 'Août', '8월'),
+  'premier-janvier-2021': localized('January 1st', '1er janvier', '1월 1일'),
+  'twin-but-twin-v-2018-2019': localized(
+    'Twin but Twin V',
+    'Jumeaux mais jumeaux V',
+    '쌍둥이, 그러나 쌍둥이 V',
+  ),
+  'twin-but-twin-vii-2018-2019': localized(
+    'Twin but Twin VII',
+    'Jumeaux mais jumeaux VII',
+    '쌍둥이, 그러나 쌍둥이 VII',
+  ),
+  'larmes-dans-locean-et-le-ciel-2017': localized(
+    'Tears in the Ocean and the Sky',
+    'Larmes dans l’océan et le ciel',
+    '바다와 하늘의 눈물',
+  ),
+  'ors-capricieux-2017': localized(
+    'Capricious Golds',
+    'Ors capricieux',
+    '변덕스러운 황금빛',
+  ),
+  'twin-but-twin-v-2017': localized(
+    'Twin but Twin V',
+    'Jumeaux mais jumeaux V',
+    '쌍둥이, 그러나 쌍둥이 V',
+  ),
+  'ash-painting-i-2017': localized(
+    'Ash Painting I',
+    'Peinture de cendre I',
+    '재 그림 I',
+  ),
+  'ash-painting-iii-2017': localized(
+    'Ash Painting III',
+    'Peinture de cendre III',
+    '재 그림 III',
+  ),
+  'silence-2017': localized('Silence', 'Silence', '침묵'),
+  'twin-but-twin-iii-2016': localized(
+    'Twin but Twin III',
+    'Jumeaux mais jumeaux III',
+    '쌍둥이, 그러나 쌍둥이 III',
+  ),
+  'love-and-humility-2015': localized(
+    'Love and Humility',
+    'Amour et humilité',
+    '사랑과 겸손',
+  ),
+  'solo-2015': localized('Solo', 'Solo', '독주'),
+  'untitled-2015': localized('Untitled', 'Sans titre', '무제'),
+  'twin-but-twin-i-2015': localized(
+    'Twin but Twin I',
+    'Jumeaux mais jumeaux I',
+    '쌍둥이, 그러나 쌍둥이 I',
+  ),
+  'twin-but-twin-ii-2015': localized(
+    'Twin but Twin II',
+    'Jumeaux mais jumeaux II',
+    '쌍둥이, 그러나 쌍둥이 II',
+  ),
+  'hope-and-miracles-2013': localized(
+    'Hope & Miracles',
+    'Espoir & Miracles',
+    '희망과 기적',
+  ),
+  'deep-river-in-the-sky-2013': localized(
+    'Deep River in the Sky',
+    'Rivière profonde dans le ciel',
+    '하늘의 깊은 강',
+  ),
+  'elegiac-2013': localized('Elegiac', 'Élégiaque', '비가'),
+  'evergreen-by-the-river-thames-i-2013': localized(
+    'Evergreen by the River Thames I',
+    'Toujours vert au bord de la Tamise I',
+    '템스강가의 상록수 I',
+  ),
+  'evergreen-by-the-river-thames-ii-2013': localized(
+    'Evergreen by the River Thames II',
+    'Toujours vert au bord de la Tamise II',
+    '템스강가의 상록수 II',
+  ),
+  'optimistic-bias-i-2013': localized(
+    'Optimistic Bias I',
+    'Biais optimiste I',
+    '낙관적 편향 I',
+  ),
+  'optimistic-bias-ii-2013': localized(
+    'Optimistic Bias II',
+    'Biais optimiste II',
+    '낙관적 편향 II',
+  ),
+  'paradox-i-2013': localized('Paradox I', 'Paradoxe I', '역설 I'),
+  'paradox-ii-2013': localized('Paradox II', 'Paradoxe II', '역설 II'),
+  'life-without-words-i-2013': localized(
+    'Life without Words I',
+    'La vie sans paroles I',
+    '말 없는 삶 I',
+  ),
+  'life-without-words-ii-2013': localized(
+    'Life without Words II',
+    'La vie sans paroles II',
+    '말 없는 삶 II',
+  ),
+  'self-deception-2013': localized(
+    'Self-Deception',
+    'Auto-illusion',
+    '자기기만',
+  ),
+};
+
+export const artworkTitle = (
+  artwork: Pick<Artwork, 'slug' | 'title'>,
+  language: SiteLanguage,
+): string => artworkTitles[artwork.slug]?.[language] ?? artwork.title;
 
 const practiceDescription = localized(
   'Ash, pigment and remembered experience meet in a restrained surface where loss is held alongside the possibility of renewal.',
@@ -86,23 +251,6 @@ export const ARTWORK_FILTERS: ArtworkFilter[] = [
 ];
 
 export const ARTWORKS: Artwork[] = [
-  {
-    slug: 'call-your-names-2022-2025',
-    title: 'Call Your Names',
-    year: '2022—2025',
-    category: 'ash-memory',
-    medium: medium.ashMixedCanvas,
-    dimensions: '218 × 153 cm',
-    presentation: 'wide',
-    description: practiceDescription,
-    views: {
-      artwork:
-        'assets/images/paintings/2025/call-your-names-2022-2025-01.png',
-      detail: [
-        'assets/images/paintings/2025/call-your-names-2022-2025-02.png',
-      ],
-    },
-  },
   {
     slug: 'hope-2025',
     title: 'Hope',
@@ -255,20 +403,6 @@ export const ARTWORKS: Artwork[] = [
     views: {
       artwork:
         'assets/images/paintings/2022/untitled-blue-and-gold-2022.png',
-    },
-  },
-  {
-    slug: 'untitled-candle-2022',
-    title: 'Untitled, Candle',
-    year: '2022',
-    category: 'peace-hope',
-    medium: medium.mixedMedia,
-    dimensions: '',
-    presentation: 'right',
-    description: peaceDescription,
-    views: {
-      artwork:
-        'assets/images/paintings/2022/untitled-candle-2022.png',
     },
   },
   {

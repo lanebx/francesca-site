@@ -51,7 +51,7 @@
             [class.is-active]="activeView() === index"
             [src]="view.src"
             [alt]="
-              current.title +
+              artworkTitle(current, language()) +
               ', ' +
               current.year +
               (view.label === 'Artwork' ? '' : ', ' + view.label)
@@ -106,7 +106,7 @@
         {{ totalWorks }}
       </p>
 
-      <h1>{{ current.title }}</h1>
+      <h1>{{ artworkTitle(current, language()) }}</h1>
       <p class="artwork-information__year">{{ current.year }}</p>
 
       <dl>
@@ -143,14 +143,14 @@
         [queryParams]="{ lang: language() }"
       >
         <span>{{ copy[language()].previous }}</span>
-        <strong>{{ previousArtwork().title }}</strong>
+        <strong>{{ artworkTitle(previousArtwork(), language()) }}</strong>
       </a>
       <a
         [routerLink]="['/works', nextArtwork().slug]"
         [queryParams]="{ lang: language() }"
       >
         <span>{{ copy[language()].next }}</span>
-        <strong>{{ nextArtwork().title }}</strong>
+        <strong>{{ artworkTitle(nextArtwork(), language()) }}</strong>
       </a>
     </nav>
   </main>

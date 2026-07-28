@@ -9,7 +9,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
-import { ARTWORKS } from '../../core/data/artworks';
+import { ARTWORKS, artworkTitle } from '../../core/data/artworks';
 import { SiteLanguage } from '../../core/models/artwork.model';
 
 interface ArtworkView {
@@ -26,6 +26,7 @@ interface ArtworkView {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArtworkDetailComponent {
+  readonly artworkTitle = artworkTitle;
   readonly activeView = signal(0);
   readonly artworkSlug = signal('');
   readonly language = signal<SiteLanguage>('en');

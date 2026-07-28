@@ -13,7 +13,11 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
-import { ARTWORK_FILTERS, ARTWORKS } from '../../core/data/artworks';
+import {
+  ARTWORK_FILTERS,
+  ARTWORKS,
+  artworkTitle,
+} from '../../core/data/artworks';
 import {
   Artwork,
   ArtworkCategory,
@@ -43,6 +47,7 @@ interface GalleryBlock {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorksComponent implements AfterViewInit {
+  readonly artworkTitle = artworkTitle;
   @ViewChildren('scene', { read: ElementRef })
   private readonly scenes!: QueryList<ElementRef<HTMLElement>>;
 
@@ -97,10 +102,12 @@ export class WorksComponent implements AfterViewInit {
       biography: 'Biography',
       contact: 'Contact',
       count: 'works in view',
+      critics: 'Critics',
       exhibitions: 'Exhibitions',
       intro:
         'A slow encounter with painting, ash and memory. Scroll without hurry.',
       open: 'View work',
+      publications: 'Publications',
       title: 'Works',
     },
     fr: {
@@ -108,10 +115,12 @@ export class WorksComponent implements AfterViewInit {
       biography: 'Biographie',
       contact: 'Contact',
       count: 'œuvres affichées',
+      critics: 'Critiques',
       exhibitions: 'Expositions',
       intro:
         'Une rencontre lente avec la peinture, la cendre et la mémoire. Prenez le temps de regarder.',
       open: 'Voir l’œuvre',
+      publications: 'Publications',
       title: 'Œuvres',
     },
     ko: {
@@ -119,10 +128,12 @@ export class WorksComponent implements AfterViewInit {
       biography: '작가 소개',
       contact: '문의',
       count: '개의 작품',
+      critics: '비평',
       exhibitions: '전시',
       intro:
         '회화와 재, 기억을 천천히 마주하는 시간입니다. 서두르지 말고 감상하세요.',
       open: '작품 보기',
+      publications: '출판물',
       title: '작품',
     },
   } as const;

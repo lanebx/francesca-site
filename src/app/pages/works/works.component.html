@@ -1,19 +1,22 @@
-<header class="works-header">
-  <a class="works-header__brand" routerLink="/">
+<header class="site-header site-header--dark">
+  <a class="site-header__brand" routerLink="/" aria-label="Francesca Cho, home">
     <span>FC</span>
-    <strong>{{ copy[language()].back }}</strong>
   </a>
 
-  <nav class="works-header__nav" aria-label="Primary navigation">
+  <nav class="site-header__nav" aria-label="Primary navigation">
     <a routerLink="/works" aria-current="page">{{ copy[language()].title }}</a>
     <a routerLink="/" fragment="exhibitions">{{
       copy[language()].exhibitions
     }}</a>
     <a routerLink="/" fragment="biography">{{ copy[language()].biography }}</a>
+    <a routerLink="/" fragment="critics">{{ copy[language()].critics }}</a>
+    <a routerLink="/" fragment="publications">{{
+      copy[language()].publications
+    }}</a>
     <a routerLink="/" fragment="contact">{{ copy[language()].contact }}</a>
   </nav>
 
-  <div class="works-header__languages" aria-label="Language selection">
+  <div class="language-switcher" aria-label="Language selection">
     <button
       type="button"
       [class.is-active]="language() === 'en'"
@@ -38,34 +41,47 @@
   </div>
 
   <button
-    class="works-header__menu"
+    class="menu-toggle"
     type="button"
     [attr.aria-expanded]="menuOpen()"
-    aria-controls="works-mobile-menu"
+    aria-controls="mobile-menu"
+    aria-label="Toggle menu"
     (click)="toggleMenu()"
   >
     <span></span>
     <span></span>
-    <span class="sr-only">Menu</span>
   </button>
 </header>
 
 <div
-  id="works-mobile-menu"
-  class="works-mobile-menu"
-  [class.is-open]="menuOpen()"
+  id="mobile-menu"
+  class="mobile-menu"
+  [class.mobile-menu--open]="menuOpen()"
   [attr.aria-hidden]="!menuOpen()"
 >
-  <a routerLink="/works" (click)="closeMenu()">{{ copy[language()].title }}</a>
-  <a routerLink="/" fragment="exhibitions" (click)="closeMenu()">{{
-    copy[language()].exhibitions
-  }}</a>
-  <a routerLink="/" fragment="biography" (click)="closeMenu()">{{
-    copy[language()].biography
-  }}</a>
-  <a routerLink="/" fragment="contact" (click)="closeMenu()">{{
-    copy[language()].contact
-  }}</a>
+  <nav aria-label="Mobile navigation">
+    <a routerLink="/works" (click)="closeMenu()">{{ copy[language()].title }}</a>
+    <a routerLink="/" fragment="exhibitions" (click)="closeMenu()">{{
+      copy[language()].exhibitions
+    }}</a>
+    <a routerLink="/" fragment="biography" (click)="closeMenu()">{{
+      copy[language()].biography
+    }}</a>
+    <a routerLink="/" fragment="critics" (click)="closeMenu()">{{
+      copy[language()].critics
+    }}</a>
+    <a routerLink="/" fragment="publications" (click)="closeMenu()">{{
+      copy[language()].publications
+    }}</a>
+    <a routerLink="/" fragment="contact" (click)="closeMenu()">{{
+      copy[language()].contact
+    }}</a>
+  </nav>
+  <div class="mobile-menu__languages">
+    <button type="button" (click)="setLanguage('en')">English</button>
+    <button type="button" (click)="setLanguage('fr')">Français</button>
+    <button type="button" (click)="setLanguage('ko')">한국어</button>
+  </div>
 </div>
 
 <main>
@@ -119,7 +135,9 @@
               [routerLink]="['/works', item.artwork.slug]"
               [queryParams]="{ lang: language() }"
               [attr.aria-label]="
-                copy[language()].open + ': ' + item.artwork.title
+                copy[language()].open +
+                ': ' +
+                artworkTitle(item.artwork, language())
               "
             >
               <figure>
@@ -127,7 +145,7 @@
                   <img
                     [src]="item.artwork.views.artwork"
                     [alt]="
-                      item.artwork.title +
+                      artworkTitle(item.artwork, language()) +
                       ', ' +
                       item.artwork.year +
                       ', Francesca Cho'
@@ -147,7 +165,7 @@
                     <span class="artwork-card__number" aria-hidden="true">
                       {{ (item.index + 1).toString().padStart(2, "0") }}
                     </span>
-                    <h2>{{ item.artwork.title }}</h2>
+                    <h2>{{ artworkTitle(item.artwork, language()) }}</h2>
                   </div>
 
                   <div class="artwork-card__meta">
