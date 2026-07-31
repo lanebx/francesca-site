@@ -1,12 +1,23 @@
 <header class="detail-header">
-  <a
-    class="detail-header__back"
-    routerLink="/works"
-    [queryParams]="{ lang: language() }"
-  >
-    <span aria-hidden="true">←</span>
-    {{ copy[language()].back }}
-  </a>
+  @if (fromHome()) {
+    <button
+      class="detail-header__back"
+      type="button"
+      (click)="returnToHome()"
+    >
+      <span aria-hidden="true">←</span>
+      {{ copy[language()].backHome }}
+    </button>
+  } @else {
+    <a
+      class="detail-header__back"
+      routerLink="/works"
+      [queryParams]="{ lang: language() }"
+    >
+      <span aria-hidden="true">←</span>
+      {{ copy[language()].back }}
+    </a>
+  }
 
   <a class="detail-header__brand" routerLink="/">Francesca Cho</a>
 

@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  inject,
   OnDestroy,
   ViewChild,
   signal,
@@ -38,6 +39,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
   readonly language = signal<Language>('en');
   readonly menuOpen = signal(false);
   readonly heroProgress = signal(0);
+  readonly activeMuseumSlide = signal<1 | 2 | 3>(1);
 
   readonly copy = {
     en: {
@@ -69,23 +71,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
       statementEyebrow: 'The practice',
       statement:
         'Working with ash, memory and light, Francesca Cho transforms traces of loss into enduring images of hope.',
-      worksEyebrow: 'Selected works',
-      worksTitle: 'A quiet encounter with memory, material and light.',
       viewWork: 'View work',
-      selectedWorks: {
-        hope: {
-          title: 'Hope',
-          medium: 'Ash on board',
-        },
-        ash: {
-          title: 'Ash Painting I',
-          medium: 'Ash & mixed media on canvas',
-        },
-        peace: {
-          title: 'Pray for Peace',
-          medium: 'Ash & oil on canvas',
-        },
-      },
+      viewAllWorks: 'View all works',
       exhibitionEyebrow: 'Latest exhibition',
       exhibitionTitle: 'Confluence',
       exhibitionDate: '04—18 July 2026',
@@ -140,24 +127,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
       statementEyebrow: 'La pratique',
       statement:
         'À travers la cendre, la mémoire et la lumière, Francesca Cho transforme les traces de la perte en images durables d’espoir.',
-      worksEyebrow: 'Œuvres sélectionnées',
-      worksTitle:
-        'Une rencontre silencieuse avec la mémoire, la matière et la lumière.',
       viewWork: 'Voir l’œuvre',
-      selectedWorks: {
-        hope: {
-          title: 'Espoir',
-          medium: 'Cendre sur panneau',
-        },
-        ash: {
-          title: 'Peinture de cendre I',
-          medium: 'Cendre et techniques mixtes sur toile',
-        },
-        peace: {
-          title: 'Prière pour la paix',
-          medium: 'Cendre et huile sur toile',
-        },
-      },
+      viewAllWorks: 'Voir toutes les œuvres',
       exhibitionEyebrow: 'Dernière exposition',
       exhibitionTitle: 'Confluence',
       exhibitionDate: '04—18 juillet 2026',
@@ -212,23 +183,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
       statementEyebrow: '작업 세계',
       statement:
         '조 프란체스카는 재, 기억, 빛을 통해 상실의 흔적을 오래 지속되는 희망의 이미지로 변환합니다.',
-      worksEyebrow: '선정 작품',
-      worksTitle: '기억과 물질, 빛을 마주하는 고요한 시간.',
       viewWork: '작품 보기',
-      selectedWorks: {
-        hope: {
-          title: '희망',
-          medium: '보드에 재',
-        },
-        ash: {
-          title: '재 회화 I',
-          medium: '캔버스에 재와 혼합 매체',
-        },
-        peace: {
-          title: '평화를 위한 기도',
-          medium: '캔버스에 재와 유채',
-        },
-      },
+      viewAllWorks: '모든 작품 보기',
       exhibitionEyebrow: '최근 전시',
       exhibitionTitle: 'Confluence',
       exhibitionDate: '2026년 7월 4일—18일',
@@ -257,8 +213,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
   } as const;
 
   private ashFrame = 0;
+  private readonly hostRef: ElementRef<HTMLElement> = inject(ElementRef);
   private particles: AshParticle[] = [];
   private reduceMotion = false;
+  private revealReadyFrame = 0;
+  private revealObserver?: IntersectionObserver;
   private readonly onScroll = () => this.updateHero();
   private readonly onResize = () => {
     this.resizeCanvas();
@@ -279,6 +238,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     window.addEventListener('resize', this.onResize, { passive: true });
 
     this.restoreInitialAnchor();
+    this.setupScrollReveals();
 
     if (!this.reduceMotion) {
       this.drawAsh();
@@ -289,6 +249,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     window.removeEventListener('scroll', this.onScroll);
     window.removeEventListener('resize', this.onResize);
     cancelAnimationFrame(this.ashFrame);
+    cancelAnimationFrame(this.revealReadyFrame);
+    this.revealObserver?.disconnect();
+    this.hostRef.nativeElement.classList.remove(
+      'reveal-initializing',
+      'reveal-ready',
+    );
   }
 
   setLanguage(language: Language): void {
@@ -319,6 +285,63 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     });
   }
 
+  private setupScrollReveals(): void {
+    const host = this.hostRef.nativeElement;
+    const elements = Array.from(
+      host.querySelectorAll<HTMLElement>('.scroll-reveal'),
+    );
+
+    if (this.reduceMotion || !('IntersectionObserver' in window)) {
+      elements.forEach((element) => element.classList.add('is-visible'));
+      return;
+    }
+
+    const upperBoundary = window.innerHeight * 0.08;
+    const lowerBoundary = window.innerHeight * 0.92;
+
+    elements.forEach((element) => {
+      const bounds = element.getBoundingClientRect();
+
+      if (bounds.top < lowerBoundary && bounds.bottom > upperBoundary) {
+        element.classList.add('is-visible');
+      } else if (bounds.bottom <= upperBoundary) {
+        element.classList.add('is-past');
+      }
+    });
+
+    this.revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const element = entry.target as HTMLElement;
+
+          if (entry.isIntersecting) {
+            element.classList.add('is-visible');
+            element.classList.remove('is-past');
+            return;
+          }
+
+          element.classList.remove('is-visible');
+          element.classList.toggle(
+            'is-past',
+            entry.boundingClientRect.top < 0,
+          );
+        });
+      },
+      {
+        rootMargin: '-8% 0px -8%',
+        threshold: 0.12,
+      },
+    );
+
+    elements.forEach((element) => this.revealObserver?.observe(element));
+    host.classList.add('reveal-initializing', 'reveal-ready');
+    this.revealReadyFrame = requestAnimationFrame(() => {
+      this.revealReadyFrame = requestAnimationFrame(() => {
+        host.classList.remove('reveal-initializing');
+      });
+    });
+  }
+
   private updateHero(): void {
     const hero = this.heroRef.nativeElement;
     const maxScroll = Math.max(hero.offsetHeight - window.innerHeight, 1);
@@ -326,21 +349,42 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
       1,
       Math.max(0, (window.scrollY - hero.offsetTop) / maxScroll),
     );
-    const museumReveal = this.ease(this.range(progress, 0.12, 0.24));
-    const secondView = this.smooth(this.range(progress, 0.32, 0.54));
-    const thirdView = this.smooth(this.range(progress, 0.6, 0.82));
-    const intro = 1 - this.ease(this.range(progress, 0, 0.18));
+    const intro = 1 - this.ease(this.range(progress, 0, 0.14));
+    const practiceReveal = this.ease(this.range(progress, 0.1, 0.2));
+    const practiceExit = this.ease(this.range(progress, 0.32, 0.42));
+    const museumReveal = this.ease(this.range(progress, 0.39, 0.48));
+    const secondView = this.smooth(this.range(progress, 0.56, 0.73));
+    const thirdView = this.smooth(this.range(progress, 0.78, 0.94));
+    const wallReveal = Math.max(practiceReveal, museumReveal);
+    const firstOpacity = Math.pow(1 - secondView, 2);
+    const secondOpacity = Math.pow(secondView, 2) * Math.pow(1 - thirdView, 2);
+    const thirdOpacity = Math.pow(thirdView, 2);
 
     this.heroProgress.set(progress);
+    this.activeMuseumSlide.set(
+      thirdView >= 0.5 ? 3 : secondView >= 0.5 ? 2 : 1,
+    );
     hero.style.setProperty('--hero-progress', progress.toFixed(4));
     hero.style.setProperty('--hero-intro', intro.toFixed(4));
+    hero.style.setProperty('--practice-reveal', practiceReveal.toFixed(4));
+    hero.style.setProperty('--practice-exit', practiceExit.toFixed(4));
     hero.style.setProperty('--museum-reveal', museumReveal.toFixed(4));
-    hero.style.setProperty('--museum-one-x', (-secondView).toFixed(4));
+    hero.style.setProperty('--wall-reveal', wallReveal.toFixed(4));
+    hero.style.setProperty('--museum-one-opacity', firstOpacity.toFixed(4));
+    hero.style.setProperty('--museum-two-opacity', secondOpacity.toFixed(4));
+    hero.style.setProperty('--museum-three-opacity', thirdOpacity.toFixed(4));
     hero.style.setProperty(
-      '--museum-two-x',
-      (1 - secondView - thirdView).toFixed(4),
+      '--museum-one-scale',
+      (1 + secondView * 0.025).toFixed(4),
     );
-    hero.style.setProperty('--museum-three-x', (1 - thirdView).toFixed(4));
+    hero.style.setProperty(
+      '--museum-two-scale',
+      (0.975 + secondView * 0.025 + thirdView * 0.025).toFixed(4),
+    );
+    hero.style.setProperty(
+      '--museum-three-scale',
+      (0.975 + thirdView * 0.025).toFixed(4),
+    );
   }
 
   private range(value: number, start: number, end: number): number {
@@ -368,7 +412,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
   }
 
   private createParticles(): void {
-    const count = Math.min(210, Math.max(90, Math.floor(window.innerWidth / 7)));
+    const count = Math.min(
+      210,
+      Math.max(90, Math.floor(window.innerWidth / 7)),
+    );
     this.particles = Array.from({ length: count }, () => ({
       x: Math.random() * window.innerWidth,
       y: Math.random() * window.innerHeight,
@@ -400,9 +447,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
       }
 
       context.beginPath();
-      context.fillStyle = `rgba(235, 229, 217, ${
-        particle.alpha * fade
-      })`;
+      context.fillStyle = `rgba(235, 229, 217, ${particle.alpha * fade})`;
       context.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
       context.fill();
     });

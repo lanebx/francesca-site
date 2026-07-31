@@ -119,8 +119,33 @@
         </div>
       </div>
 
+      <div
+        class="hero__practice"
+        aria-labelledby="statement-title"
+      >
+        <div class="hero__practice-inner">
+          <p class="eyebrow">{{ copy[language()].statementEyebrow }}</p>
+          <h2 id="statement-title">{{ copy[language()].statement }}</h2>
+          <span
+            class="hero__practice-mark"
+            [class.hero__practice-mark--word]="language() === 'ko'"
+            aria-hidden="true"
+          >
+            {{ language() === "ko" ? "Light" : "빛" }}
+          </span>
+        </div>
+      </div>
+
       <div class="hero__museum" aria-label="Selected paintings">
-        <figure class="hero__museum-view hero__museum-view--one">
+        <figure
+          class="hero__museum-view hero__museum-view--one"
+          [class.hero__museum-view--active]="
+            heroProgress() >= 0.48 && activeMuseumSlide() === 1
+          "
+          [attr.aria-hidden]="
+            heroProgress() < 0.48 || activeMuseumSlide() !== 1
+          "
+        >
           <div class="hero__art-object hero__art-object--landscape">
             <img
               src="assets/images/paintings/2020-2021/aout-2021.png"
@@ -130,10 +155,29 @@
           <figcaption class="hero__caption">
             <span><em>{{ copy[language()].museum.aout.title }}</em> · 2021</span>
             <span>{{ copy[language()].museum.aout.medium }} · 61 × 40 cm</span>
+            <div class="hero__caption-actions">
+              <a
+                class="text-link"
+                routerLink="/works/aout-2021"
+                [queryParams]="{ lang: language(), from: 'home' }"
+                [attr.tabindex]="
+                  heroProgress() >= 0.48 && activeMuseumSlide() === 1
+                    ? null
+                    : -1
+                "
+              >
+                {{ copy[language()].viewWork }}
+                <span aria-hidden="true">↗</span>
+              </a>
+            </div>
           </figcaption>
         </figure>
 
-        <figure class="hero__museum-view hero__museum-view--two">
+        <figure
+          class="hero__museum-view hero__museum-view--two"
+          [class.hero__museum-view--active]="activeMuseumSlide() === 2"
+          [attr.aria-hidden]="activeMuseumSlide() !== 2"
+        >
           <div class="hero__art-object hero__art-object--panoramic">
             <img
               src="assets/images/paintings/2018-2019/twin-but-twin-5-2018-2019.png"
@@ -146,10 +190,25 @@
               2018—2019</span
             >
             <span>{{ copy[language()].museum.twin.medium }} · 50 × 140 cm</span>
+            <div class="hero__caption-actions">
+              <a
+                class="text-link"
+                routerLink="/works/twin-but-twin-v-2018-2019"
+                [queryParams]="{ lang: language(), from: 'home' }"
+                [attr.tabindex]="activeMuseumSlide() === 2 ? null : -1"
+              >
+                {{ copy[language()].viewWork }}
+                <span aria-hidden="true">↗</span>
+              </a>
+            </div>
           </figcaption>
         </figure>
 
-        <figure class="hero__museum-view hero__museum-view--three">
+        <figure
+          class="hero__museum-view hero__museum-view--three"
+          [class.hero__museum-view--active]="activeMuseumSlide() === 3"
+          [attr.aria-hidden]="activeMuseumSlide() !== 3"
+        >
           <div class="hero__art-object hero__art-object--portrait">
             <img
               src="assets/images/paintings/2017/larmes-dans-locean-et-le-ciel-2017.png"
@@ -163,115 +222,29 @@
             <span
               >{{ copy[language()].museum.tears.medium }} · 153 × 194 cm</span
             >
+            <div class="hero__caption-actions">
+              <a
+                class="text-link"
+                routerLink="/works/larmes-dans-locean-et-le-ciel-2017"
+                [queryParams]="{ lang: language(), from: 'home' }"
+                [attr.tabindex]="activeMuseumSlide() === 3 ? null : -1"
+              >
+                {{ copy[language()].viewWork }}
+                <span aria-hidden="true">↗</span>
+              </a>
+              <a
+                class="text-link"
+                routerLink="/works"
+                [queryParams]="{ lang: language() }"
+                [attr.tabindex]="activeMuseumSlide() === 3 ? null : -1"
+              >
+                {{ copy[language()].viewAllWorks }}
+                <span aria-hidden="true">↗</span>
+              </a>
+            </div>
           </figcaption>
         </figure>
       </div>
-    </div>
-  </section>
-
-  <section class="statement section-shell" aria-labelledby="statement-title">
-    <p class="eyebrow">{{ copy[language()].statementEyebrow }}</p>
-    <h2 id="statement-title">{{ copy[language()].statement }}</h2>
-    <span
-      class="statement__mark"
-      [class.statement__mark--word]="language() === 'ko'"
-      aria-hidden="true"
-    >
-      {{ language() === "ko" ? "Light" : "빛" }}
-    </span>
-  </section>
-
-  <section id="works" class="works section-shell" aria-labelledby="works-title">
-    <div class="section-heading">
-      <p class="eyebrow">{{ copy[language()].worksEyebrow }}</p>
-      <h2 id="works-title">{{ copy[language()].worksTitle }}</h2>
-      <a class="text-link" routerLink="/works">
-        {{ copy[language()].menu.works }}
-        <span aria-hidden="true">↗</span>
-      </a>
-    </div>
-
-    <div id="works-list" class="works__walk">
-      <a
-        class="artwork artwork--portrait artwork--left"
-        routerLink="/works/hope-2025"
-        [queryParams]="{ lang: language() }"
-      >
-        <figure>
-          <div class="artwork__image">
-            <img
-              src="assets/images/paintings/2025/hope-2025-home.jpg"
-              [alt]="
-                copy[language()].selectedWorks.hope.title +
-                ', 2025, Francesca Cho'
-              "
-              loading="lazy"
-            />
-          </div>
-          <figcaption>
-            <span
-              ><em>{{ copy[language()].selectedWorks.hope.title }}</em>,
-              2025</span
-            >
-            <span>{{ copy[language()].selectedWorks.hope.medium }}</span>
-          </figcaption>
-        </figure>
-        <span class="artwork__cta">{{ copy[language()].viewWork }} ↗</span>
-      </a>
-
-      <a
-        class="artwork artwork--landscape artwork--center"
-        routerLink="/works/ash-painting-i-2017"
-        [queryParams]="{ lang: language() }"
-      >
-        <figure>
-          <div class="artwork__image">
-            <img
-              src="assets/images/paintings/2017/ash-painting-1-2017.png"
-              [alt]="
-                copy[language()].selectedWorks.ash.title +
-                ', 2017, Francesca Cho'
-              "
-              loading="lazy"
-            />
-          </div>
-          <figcaption>
-            <span
-              ><em>{{ copy[language()].selectedWorks.ash.title }}</em>,
-              2017</span
-            >
-            <span>{{ copy[language()].selectedWorks.ash.medium }}</span>
-          </figcaption>
-        </figure>
-        <span class="artwork__cta">{{ copy[language()].viewWork }} ↗</span>
-      </a>
-
-      <a
-        class="artwork artwork--portrait artwork--left artwork--offset"
-        routerLink="/works/pray-for-peace-2025"
-        [queryParams]="{ lang: language() }"
-      >
-        <figure>
-          <div class="artwork__image">
-            <img
-              src="assets/images/paintings/2025/pray-for-peace-home.jpg"
-              [alt]="
-                copy[language()].selectedWorks.peace.title +
-                ', 2025, Francesca Cho'
-              "
-              loading="lazy"
-            />
-          </div>
-          <figcaption>
-            <span
-              ><em>{{ copy[language()].selectedWorks.peace.title }}</em>,
-              2025</span
-            >
-            <span>{{ copy[language()].selectedWorks.peace.medium }}</span>
-          </figcaption>
-        </figure>
-        <span class="artwork__cta">{{ copy[language()].viewWork }} ↗</span>
-      </a>
     </div>
   </section>
 
@@ -280,7 +253,7 @@
     class="exhibition section-shell"
     aria-labelledby="exhibition-title"
   >
-    <div class="exhibition__poster">
+    <div class="exhibition__poster scroll-reveal">
       <img
         src="assets/images/exhibitions/2026/confluence-2026.jpg"
         alt="Poster for the Confluence exhibition in Avignon, July 2026"
@@ -289,7 +262,7 @@
       <span aria-hidden="true">2026</span>
     </div>
 
-    <div class="exhibition__content">
+    <div class="exhibition__content scroll-reveal scroll-reveal--delay-1">
       <p class="eyebrow">{{ copy[language()].exhibitionEyebrow }}</p>
       <h2 id="exhibition-title">{{ copy[language()].exhibitionTitle }}</h2>
       <div class="exhibition__meta">
@@ -306,7 +279,7 @@
 
   <section id="critics" class="quote" aria-labelledby="quote-title">
     <div class="quote__texture" aria-hidden="true"></div>
-    <div class="quote__inner">
+    <div class="quote__inner scroll-reveal">
       <span class="quote__mark" aria-hidden="true">“</span>
       <blockquote id="quote-title">
         {{ copy[language()].quote }}
@@ -320,14 +293,14 @@
     class="biography section-shell"
     aria-labelledby="biography-title"
   >
-    <div class="biography__route" aria-hidden="true">
+    <div class="biography__route scroll-reveal" aria-hidden="true">
       <span>Seoul</span>
       <i></i>
       <span>London</span>
       <i></i>
       <span>Avignon</span>
     </div>
-    <div class="biography__content">
+    <div class="biography__content scroll-reveal scroll-reveal--delay-1">
       <p class="eyebrow">{{ copy[language()].biographyEyebrow }}</p>
       <h2 id="biography-title">{{ copy[language()].biographyTitle }}</h2>
       <p>{{ copy[language()].biographyBody }}</p>
@@ -339,8 +312,10 @@
   </section>
 
   <section id="publications" class="institutions section-shell">
-    <p class="eyebrow">{{ copy[language()].pressEyebrow }}</p>
-    <div class="institutions__list">
+    <p class="eyebrow scroll-reveal">
+      {{ copy[language()].pressEyebrow }}
+    </p>
+    <div class="institutions__list scroll-reveal scroll-reveal--delay-1">
       <span>Tate Modern</span>
       <span>Miró Foundation</span>
       <span>Whanki Museum</span>
@@ -350,13 +325,13 @@
   </section>
 
   <section id="contact" class="contact" aria-labelledby="contact-title">
-    <div class="contact__intro">
+    <div class="contact__intro scroll-reveal">
       <p class="eyebrow">{{ copy[language()].contactEyebrow }}</p>
       <h2 id="contact-title">{{ copy[language()].contactTitle }}</h2>
       <p>{{ copy[language()].contactBody }}</p>
     </div>
 
-    <form class="contact__form">
+    <form class="contact__form scroll-reveal scroll-reveal--delay-1">
       <label>
         <span>{{ copy[language()].formName }}</span>
         <input type="text" autocomplete="name" />
@@ -375,7 +350,7 @@
       </button>
     </form>
 
-    <footer class="contact__footer">
+    <footer class="contact__footer scroll-reveal">
       <span>© Francesca Cho 2026</span>
       <span>Atelier FCW · Avignon, France</span>
       <a

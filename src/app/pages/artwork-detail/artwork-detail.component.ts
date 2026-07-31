@@ -6,6 +6,7 @@ import {
   inject,
   signal,
 } from '@angular/core';
+import { Location } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
@@ -29,6 +30,7 @@ export class ArtworkDetailComponent {
   readonly artworkTitle = artworkTitle;
   readonly activeView = signal(0);
   readonly artworkSlug = signal('');
+  readonly fromHome = signal(false);
   readonly language = signal<SiteLanguage>('en');
   readonly totalWorks = ARTWORKS.length;
 
@@ -81,6 +83,7 @@ export class ArtworkDetailComponent {
     en: {
       about: 'About this work',
       back: 'All works',
+      backHome: 'Back to home',
       category: 'Series',
       detail: 'Detail',
       inquire: 'Inquire about this work',
@@ -94,6 +97,7 @@ export class ArtworkDetailComponent {
     fr: {
       about: 'À propos de cette œuvre',
       back: 'Toutes les œuvres',
+      backHome: 'Retour à l’accueil',
       category: 'Série',
       detail: 'Détail',
       inquire: 'Demander des informations',
@@ -107,6 +111,7 @@ export class ArtworkDetailComponent {
     ko: {
       about: '작품 소개',
       back: '모든 작품',
+      backHome: '홈으로 돌아가기',
       category: '연작',
       detail: '세부',
       inquire: '작품 문의',
@@ -120,6 +125,7 @@ export class ArtworkDetailComponent {
   } as const;
 
   private readonly destroyRef = inject(DestroyRef);
+  private readonly location = inject(Location);
   private readonly route = inject(ActivatedRoute);
   private pointerStart = 0;
 
@@ -135,6 +141,7 @@ export class ArtworkDetailComponent {
     this.route.queryParamMap
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((params) => {
+        this.fromHome.set(params.get('from') === 'home');
         const language = params.get('lang');
         if (language === 'en' || language === 'fr' || language === 'ko') {
           this.setLanguage(language);
@@ -145,6 +152,10 @@ export class ArtworkDetailComponent {
   setLanguage(language: SiteLanguage): void {
     this.language.set(language);
     document.documentElement.lang = language;
+  }
+
+  returnToHome(): void {
+    this.location.back();
   }
 
   setView(index: number): void {
