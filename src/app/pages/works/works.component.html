@@ -5,7 +5,7 @@
 
   <nav class="site-header__nav" aria-label="Primary navigation">
     <a routerLink="/works" aria-current="page">{{ copy[language()].title }}</a>
-    <a routerLink="/" fragment="exhibitions">{{
+    <a routerLink="/exhibitions" [queryParams]="{ lang: language() }">{{
       copy[language()].exhibitions
     }}</a>
     <a routerLink="/" fragment="biography">{{ copy[language()].biography }}</a>
@@ -61,7 +61,7 @@
 >
   <nav aria-label="Mobile navigation">
     <a routerLink="/works" (click)="closeMenu()">{{ copy[language()].title }}</a>
-    <a routerLink="/" fragment="exhibitions" (click)="closeMenu()">{{
+    <a routerLink="/exhibitions" [queryParams]="{ lang: language() }" (click)="closeMenu()">{{
       copy[language()].exhibitions
     }}</a>
     <a routerLink="/" fragment="biography" (click)="closeMenu()">{{

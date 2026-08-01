@@ -95,8 +95,17 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         'For exhibitions, curatorial projects, press and enquiries about available works.',
       formName: 'Name',
       formEmail: 'Email',
+      formSubject: 'Subject',
+      formSubjectPlaceholder: 'Select an inquiry',
+      formSubjectExhibition: 'Exhibition or curatorial project',
+      formSubjectArtwork: 'Available works',
+      formSubjectPress: 'Press',
+      formSubjectOther: 'Other',
       formMessage: 'Message',
       formSubmit: 'Send inquiry',
+      visitLabel: 'Visit the gallery',
+      followLabel: 'Follow',
+      directionsLabel: 'Get directions',
     },
     fr: {
       descriptor: 'Artiste d’origine coréenne basée à Avignon, France',
@@ -151,8 +160,17 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         'Pour les expositions, projets curatoriaux, la presse et les demandes concernant les œuvres disponibles.',
       formName: 'Nom',
       formEmail: 'E-mail',
+      formSubject: 'Objet',
+      formSubjectPlaceholder: 'Choisir une demande',
+      formSubjectExhibition: 'Exposition ou projet curatorial',
+      formSubjectArtwork: 'Œuvres disponibles',
+      formSubjectPress: 'Presse',
+      formSubjectOther: 'Autre',
       formMessage: 'Message',
       formSubmit: 'Envoyer',
+      visitLabel: 'Visiter la galerie',
+      followLabel: 'Suivre',
+      directionsLabel: 'Itinéraire',
     },
     ko: {
       descriptor: '프랑스 아비뇽을 기반으로 활동하는 한국 출신 작가',
@@ -207,8 +225,17 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         '전시, 큐레토리얼 프로젝트, 언론 및 작품 문의를 위한 연락처입니다.',
       formName: '이름',
       formEmail: '이메일',
+      formSubject: '문의 유형',
+      formSubjectPlaceholder: '문의 유형을 선택하세요',
+      formSubjectExhibition: '전시 및 큐레이토리얼 프로젝트',
+      formSubjectArtwork: '구매 가능한 작품',
+      formSubjectPress: '언론',
+      formSubjectOther: '기타',
       formMessage: '메시지',
       formSubmit: '문의 보내기',
+      visitLabel: '갤러리 방문',
+      followLabel: '팔로우',
+      directionsLabel: '길찾기',
     },
   } as const;
 
@@ -268,6 +295,26 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
   closeMenu(): void {
     this.menuOpen.set(false);
+  }
+
+  openSubjectPicker(event: MouseEvent, select: HTMLSelectElement): void {
+    if (event.target === select) {
+      return;
+    }
+
+    event.preventDefault();
+    select.focus();
+
+    if ('showPicker' in select) {
+      try {
+        select.showPicker();
+        return;
+      } catch {
+        // Fall back to a regular click for browsers without picker support.
+      }
+    }
+
+    select.click();
   }
 
   private restoreInitialAnchor(): void {

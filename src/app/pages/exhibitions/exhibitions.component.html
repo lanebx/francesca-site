@@ -1,1 +1,179 @@
+<header class="site-header">
+  <a class="site-header__brand" routerLink="/" aria-label="Francesca Cho, home">
+    <span>FC</span>
+  </a>
 
+  <nav class="site-header__nav" aria-label="Primary navigation">
+    <a routerLink="/works">{{ copy[language()].works }}</a>
+    <a routerLink="/exhibitions" aria-current="page">{{ copy[language()].title }}</a>
+    <a routerLink="/" fragment="biography">{{ copy[language()].biography }}</a>
+    <a routerLink="/" fragment="critics">{{ copy[language()].critics }}</a>
+    <a routerLink="/" fragment="publications">{{ copy[language()].publications }}</a>
+    <a routerLink="/" fragment="contact">{{ copy[language()].contact }}</a>
+  </nav>
+
+  <div class="language-switcher" aria-label="Language selection">
+    <button type="button" [class.is-active]="language() === 'en'" (click)="setLanguage('en')">EN</button>
+    <button type="button" [class.is-active]="language() === 'fr'" (click)="setLanguage('fr')">FR</button>
+    <button type="button" [class.is-active]="language() === 'ko'" (click)="setLanguage('ko')">한국어</button>
+  </div>
+
+  <button
+    class="menu-toggle"
+    type="button"
+    [attr.aria-expanded]="menuOpen()"
+    aria-controls="exhibitions-mobile-menu"
+    aria-label="Toggle menu"
+    (click)="toggleMenu()"
+  >
+    <span></span><span></span>
+  </button>
+</header>
+
+<div
+  id="exhibitions-mobile-menu"
+  class="mobile-menu"
+  [class.mobile-menu--open]="menuOpen()"
+  [attr.aria-hidden]="!menuOpen()"
+>
+  <nav aria-label="Mobile navigation">
+    <a routerLink="/works" (click)="closeMenu()">{{ copy[language()].works }}</a>
+    <a routerLink="/exhibitions" (click)="closeMenu()">{{ copy[language()].title }}</a>
+    <a routerLink="/" fragment="biography" (click)="closeMenu()">{{ copy[language()].biography }}</a>
+    <a routerLink="/" fragment="critics" (click)="closeMenu()">{{ copy[language()].critics }}</a>
+    <a routerLink="/" fragment="publications" (click)="closeMenu()">{{ copy[language()].publications }}</a>
+    <a routerLink="/" fragment="contact" (click)="closeMenu()">{{ copy[language()].contact }}</a>
+  </nav>
+  <div class="mobile-menu__languages">
+    <button type="button" (click)="setLanguage('en')">English</button>
+    <button type="button" (click)="setLanguage('fr')">Français</button>
+    <button type="button" (click)="setLanguage('ko')">한국어</button>
+  </div>
+</div>
+
+<main>
+  <section class="exhibitions-intro" aria-labelledby="exhibitions-title">
+    <p class="exhibitions-intro__index">
+      01 — {{ exhibitions.length.toString().padStart(2, "0") }}
+    </p>
+    <h1 id="exhibitions-title">{{ copy[language()].title }}</h1>
+    <p class="exhibitions-intro__copy">{{ copy[language()].intro }}</p>
+    <a
+      class="exhibitions-intro__archive-link"
+      routerLink="/exhibitions"
+      fragment="complete-archive"
+      [queryParams]="{ lang: language() }"
+    >
+      {{ copy[language()].archiveLink }} <span aria-hidden="true">↓</span>
+    </a>
+    <span class="exhibitions-intro__line" aria-hidden="true"></span>
+  </section>
+
+  <section class="exhibitions-sequence" aria-label="Exhibition archive">
+    @for (exhibition of featuredExhibitions; track exhibition.slug; let index = $index) {
+      <article
+        #scene
+        [class]="'exhibition-scene exhibition-scene--' + layoutClass(index)"
+      >
+        <div class="exhibition-scene__index" aria-hidden="true">
+          <span>{{ (index + 1).toString().padStart(2, "0") }}</span>
+          <span>/</span>
+          <span>{{ featuredExhibitions.length.toString().padStart(2, "0") }}</span>
+        </div>
+
+        <a
+          class="exhibition-scene__media"
+          [routerLink]="['/exhibitions', exhibition.slug]"
+          [queryParams]="{ lang: language() }"
+          [attr.aria-label]="copy[language()].open + ': ' + exhibitionTitle(exhibition, language())"
+        >
+          <img
+            [src]="exhibition.media[0].src"
+            [alt]="exhibition.media[0].alt[language()]"
+            [attr.loading]="index === 0 ? 'eager' : 'lazy'"
+            [attr.fetchpriority]="index === 0 ? 'high' : null"
+            decoding="async"
+          />
+          <span class="exhibition-scene__open">
+            {{ copy[language()].open }} <i aria-hidden="true">↗</i>
+          </span>
+        </a>
+
+        <div class="exhibition-scene__information">
+          <div class="exhibition-scene__year-line">
+            <span>{{ exhibition.year }}</span>
+            @if (exhibition.status) {
+              <span class="exhibition-scene__status">{{ exhibition.status[language()] }}</span>
+            }
+          </div>
+
+          <h2>
+            <a
+              [routerLink]="['/exhibitions', exhibition.slug]"
+              [queryParams]="{ lang: language() }"
+            >
+              {{ exhibitionTitle(exhibition, language()) }}
+            </a>
+          </h2>
+
+          <div class="exhibition-scene__meta">
+            <p>{{ exhibition.dates[language()] }}</p>
+            <p>{{ exhibition.venue[language()] }}</p>
+            <p>{{ exhibitionPlace(exhibition, language()) }}</p>
+          </div>
+        </div>
+      </article>
+    }
+  </section>
+
+  <section id="complete-archive" class="archive-index" aria-labelledby="archive-title">
+    <header class="archive-index__header">
+      <p class="eyebrow">1997—2026</p>
+      <div>
+        <h2 id="archive-title">{{ copy[language()].archive }}</h2>
+        <p>{{ copy[language()].archiveIntro }}</p>
+      </div>
+    </header>
+
+    <div class="archive-index__years">
+      @for (year of archiveYears; track year) {
+        <section class="archive-year" [attr.aria-labelledby]="'archive-year-' + year">
+          <h3 [id]="'archive-year-' + year">{{ year }}</h3>
+          <div class="archive-year__records">
+            @for (exhibition of exhibitionsForYear(year); track exhibition.slug) {
+              <a
+                class="archive-record"
+                [routerLink]="['/exhibitions', exhibition.slug]"
+                [queryParams]="{ lang: language() }"
+              >
+                <span class="archive-record__title">
+                  {{ exhibitionTitle(exhibition, language()) }}
+                  @if (exhibition.status) {
+                    <small>{{ exhibition.status[language()] }}</small>
+                  }
+                </span>
+                <span class="archive-record__venue">
+                  {{ exhibition.venue[language()] }}<br />
+                  {{ exhibition.city[language()] }}
+                </span>
+                <span class="archive-record__type">{{ exhibition.type[language()] }}</span>
+                <span class="archive-record__material" aria-hidden="true">
+                  {{ exhibition.media.length.toString().padStart(2, "0") }}
+                </span>
+                <span class="archive-record__arrow" aria-hidden="true">↗</span>
+              </a>
+            }
+          </div>
+        </section>
+      }
+    </div>
+  </section>
+
+  <footer class="exhibitions-footer">
+    <p>Francesca Cho</p>
+    <a routerLink="/" fragment="contact">
+      {{ copy[language()].contact }} <span aria-hidden="true">↗</span>
+    </a>
+    <p>Avignon · France</p>
+  </footer>
+</main>

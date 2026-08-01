@@ -26,6 +26,11 @@ html.works-scroll {
   scroll-snap-type: y mandatory;
 }
 
+html.exhibitions-scroll {
+  scroll-padding-top: 76px;
+  scroll-snap-type: y proximity;
+}
+
 body {
   margin: 0;
   min-width: 320px;
@@ -73,5 +78,15 @@ img {
 @media (max-width: 900px) {
   html.works-scroll {
     scroll-padding-top: 124px;
+  }
+
+  html.exhibitions-scroll {
+    scroll-padding-top: 66px;
+  }
+}
+
+@media (max-width: 760px) {
+  html.exhibitions-scroll {
+    scroll-padding-top: 64px;
   }
 }

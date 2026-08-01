@@ -54,6 +54,14 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'exhibitions/:slug',
+        title: 'Exhibition | Francesca Cho',
+        loadComponent: () =>
+          import(
+            './pages/exhibition-detail/exhibition-detail.component'
+          ).then((component) => component.ExhibitionDetailComponent),
+      },
+      {
         path: 'contact',
         title: 'Contact | Francesca',
         loadComponent: () =>

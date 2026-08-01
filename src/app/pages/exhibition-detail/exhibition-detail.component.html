@@ -1,0 +1,151 @@
+<header class="detail-header">
+  <a
+    class="detail-header__back"
+    routerLink="/exhibitions"
+    [queryParams]="{ lang: language() }"
+  >
+    <span aria-hidden="true">←</span>
+    {{ copy[language()].back }}
+  </a>
+
+  <a class="detail-header__brand" routerLink="/">Francesca Cho</a>
+
+  <div class="detail-header__languages" aria-label="Language selection">
+    <button type="button" [class.is-active]="language() === 'en'" (click)="setLanguage('en')">EN</button>
+    <button type="button" [class.is-active]="language() === 'fr'" (click)="setLanguage('fr')">FR</button>
+    <button type="button" [class.is-active]="language() === 'ko'" (click)="setLanguage('ko')">한국어</button>
+  </div>
+</header>
+
+@if (exhibition(); as current) {
+  <main class="exhibition-detail">
+    <section class="exhibition-hero" aria-labelledby="exhibition-title">
+      <div class="exhibition-hero__media">
+        @if (current.media[0]; as heroMedia) {
+          <img
+            [src]="heroMedia.src"
+            [alt]="heroMedia.alt[language()]"
+            fetchpriority="high"
+          />
+        } @else {
+          <div class="exhibition-hero__archive-card" aria-label="Archive record without surviving image">
+            <span>{{ current.year }}</span>
+            <strong>{{ exhibitionTitle(current, language()) }}</strong>
+            <small>{{ copy[language()].noImage }}</small>
+          </div>
+        }
+      </div>
+
+      <div class="exhibition-hero__information">
+        <p class="exhibition-hero__index">
+          {{ (exhibitionIndex() + 1).toString().padStart(2, "0") }}
+          /
+          {{ totalExhibitions.toString().padStart(2, "0") }}
+        </p>
+
+        <div class="exhibition-hero__heading">
+          <p class="exhibition-hero__year">
+            {{ current.year }}
+            @if (current.status) { <span>{{ current.status[language()] }}</span> }
+          </p>
+          <h1 id="exhibition-title">{{ exhibitionTitle(current, language()) }}</h1>
+        </div>
+
+        <dl>
+          <div>
+            <dt>{{ copy[language()].date }}</dt>
+            <dd>{{ current.dates[language()] }}</dd>
+          </div>
+          <div>
+            <dt>{{ copy[language()].venue }}</dt>
+            <dd>{{ current.venue[language()] }}</dd>
+          </div>
+          <div>
+            <dt>{{ copy[language()].location }}</dt>
+            <dd>{{ exhibitionPlace(current, language()) }}</dd>
+          </div>
+          <div>
+            <dt>{{ copy[language()].type }}</dt>
+            <dd>{{ current.type[language()] }}</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="exhibition-about" aria-labelledby="about-title">
+      <p class="eyebrow">{{ current.year }} · {{ current.city[language()] }}</p>
+      <div class="exhibition-about__copy">
+        <h2 id="about-title">{{ copy[language()].about }}</h2>
+        <p class="exhibition-about__lead">{{ current.description[language()] }}</p>
+        @for (detail of current.details ?? []; track $index) {
+          <p class="exhibition-about__detail">{{ detail[language()] }}</p>
+        }
+      </div>
+    </section>
+
+    @if (current.media.length > 1) {
+      <section class="exhibition-gallery" aria-labelledby="gallery-title">
+        <div class="exhibition-gallery__heading">
+          <p class="eyebrow" id="gallery-title">{{ copy[language()].media }}</p>
+          <span>{{ (current.media.length - 1).toString().padStart(2, "0") }}</span>
+        </div>
+
+        <div class="exhibition-gallery__grid">
+          @for (media of current.media.slice(1); track media.src; let index = $index) {
+            <figure [class.is-wide]="index % 3 === 0">
+              <img [src]="media.src" [alt]="media.alt[language()]" loading="lazy" decoding="async" />
+              <figcaption>
+                {{ media.caption?.[language()] ?? media.alt[language()] }} · {{ current.year }}
+              </figcaption>
+            </figure>
+          }
+        </div>
+      </section>
+    }
+
+    @if (current.publications?.length) {
+      <section class="related-publications" aria-labelledby="publications-title">
+        <p class="eyebrow" id="publications-title">{{ copy[language()].publications }}</p>
+        <div class="related-publications__list">
+          @for (publication of current.publications; track publication.href) {
+            <a [href]="publication.href" target="_blank" rel="noreferrer">
+              <span class="related-publications__source">
+                {{ publication.source[language()] }}
+                @if (publication.date) { · {{ publication.date }} }
+              </span>
+              <strong>{{ publication.title[language()] }}</strong>
+              <em>{{ publication.type }}</em>
+              <span class="related-publications__action">
+                {{ copy[language()].viewDocument }} ↗
+              </span>
+            </a>
+          }
+        </div>
+      </section>
+    }
+
+    <nav class="exhibition-neighbours" aria-label="Browse exhibitions">
+      <a
+        [routerLink]="['/exhibitions', previousExhibition().slug]"
+        [queryParams]="{ lang: language() }"
+      >
+        <span>{{ copy[language()].previous }}</span>
+        <strong>{{ exhibitionTitle(previousExhibition(), language()) }}</strong>
+        <small>{{ previousExhibition().year }}</small>
+      </a>
+      <a
+        [routerLink]="['/exhibitions', nextExhibition().slug]"
+        [queryParams]="{ lang: language() }"
+      >
+        <span>{{ copy[language()].next }}</span>
+        <strong>{{ exhibitionTitle(nextExhibition(), language()) }}</strong>
+        <small>{{ nextExhibition().year }}</small>
+      </a>
+    </nav>
+  </main>
+} @else {
+  <main class="exhibition-missing">
+    <p>{{ copy[language()].unavailable }}</p>
+    <a routerLink="/exhibitions">{{ copy[language()].unavailableCta }} →</a>
+  </main>
+}

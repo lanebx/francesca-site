@@ -8,7 +8,7 @@
 
   <nav class="site-header__nav" aria-label="Primary navigation">
     <a routerLink="/works">{{ copy[language()].menu.works }}</a>
-    <a href="#exhibitions">{{ copy[language()].menu.exhibitions }}</a>
+    <a routerLink="/exhibitions" [queryParams]="{ lang: language() }">{{ copy[language()].menu.exhibitions }}</a>
     <a href="#biography">{{ copy[language()].menu.biography }}</a>
     <a href="#critics">{{ copy[language()].menu.critics }}</a>
     <a href="#publications">{{ copy[language()].menu.publications }}</a>
@@ -65,7 +65,7 @@
     <a routerLink="/works" (click)="closeMenu()">{{
       copy[language()].menu.works
     }}</a>
-    <a href="#exhibitions" (click)="closeMenu()">{{
+    <a routerLink="/exhibitions" [queryParams]="{ lang: language() }" (click)="closeMenu()">{{
       copy[language()].menu.exhibitions
     }}</a>
     <a href="#biography" (click)="closeMenu()">{{
@@ -270,7 +270,11 @@
         <p>{{ copy[language()].exhibitionPlace }}</p>
       </div>
       <p class="exhibition__body">{{ copy[language()].exhibitionBody }}</p>
-      <a class="text-link" href="#publications">
+      <a
+        class="text-link"
+        routerLink="/exhibitions/confluence-2026"
+        [queryParams]="{ lang: language() }"
+      >
         {{ copy[language()].explore }}
         <span aria-hidden="true">↗</span>
       </a>
@@ -325,34 +329,104 @@
   </section>
 
   <section id="contact" class="contact" aria-labelledby="contact-title">
-    <div class="contact__intro scroll-reveal">
-      <p class="eyebrow">{{ copy[language()].contactEyebrow }}</p>
-      <h2 id="contact-title">{{ copy[language()].contactTitle }}</h2>
-      <p>{{ copy[language()].contactBody }}</p>
-    </div>
+    <div class="contact__layout">
+      <div class="contact__aside">
+        <div class="contact__intro scroll-reveal">
+          <p class="eyebrow">{{ copy[language()].contactEyebrow }}</p>
+          <h2 id="contact-title">{{ copy[language()].contactTitle }}</h2>
+          <p>{{ copy[language()].contactBody }}</p>
+        </div>
 
-    <form class="contact__form scroll-reveal scroll-reveal--delay-1">
-      <label>
-        <span>{{ copy[language()].formName }}</span>
-        <input type="text" autocomplete="name" />
-      </label>
-      <label>
-        <span>{{ copy[language()].formEmail }}</span>
-        <input type="email" autocomplete="email" />
-      </label>
-      <label class="contact__message">
-        <span>{{ copy[language()].formMessage }}</span>
-        <textarea rows="1"></textarea>
-      </label>
-      <button type="button">
-        {{ copy[language()].formSubmit }}
-        <span aria-hidden="true">↗</span>
-      </button>
-    </form>
+        <div class="contact__details scroll-reveal scroll-reveal--delay-1">
+          <div>
+            <span>{{ copy[language()].visitLabel }}</span>
+            <address>
+              Galerie Atelier FCW<br />
+              48 Rue Limas<br />
+              84000 Avignon, France
+            </address>
+          </div>
+          <div>
+            <span>{{ copy[language()].followLabel }}</span>
+            <a
+              href="https://www.instagram.com/chofrancesca/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Instagram <i aria-hidden="true">↗</i>
+            </a>
+          </div>
+        </div>
+
+        <div class="contact__map scroll-reveal scroll-reveal--delay-1">
+          <iframe
+            title="Galerie Atelier FCW — 48 Rue Limas, Avignon"
+            src="https://www.google.com/maps?q=Galerie%20Atelier%20FCW%2C%2048%20Rue%20Limas%2C%2084000%20Avignon%2C%20France&amp;output=embed"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            tabindex="-1"
+          ></iframe>
+          <a
+            href="https://www.google.com/maps/search/?api=1&amp;query=Galerie%20Atelier%20FCW%2C%2048%20Rue%20Limas%2C%2084000%20Avignon%2C%20France"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <span>{{ copy[language()].directionsLabel }}</span>
+            <i aria-hidden="true">↗</i>
+          </a>
+        </div>
+      </div>
+
+      <form class="contact__form scroll-reveal scroll-reveal--delay-1">
+        <p class="contact__form-number" aria-hidden="true">01 — 04</p>
+        <label>
+          <span>{{ copy[language()].formName }}</span>
+          <input type="text" autocomplete="name" required />
+        </label>
+        <label>
+          <span>{{ copy[language()].formEmail }}</span>
+          <input type="email" autocomplete="email" required />
+        </label>
+        <label
+          class="contact__subject"
+          (click)="openSubjectPicker($event, subjectSelect)"
+        >
+          <span>{{ copy[language()].formSubject }}</span>
+          <span class="contact__select">
+            <select #subjectSelect required>
+              <option value="" selected disabled>
+                {{ copy[language()].formSubjectPlaceholder }}
+              </option>
+              <option value="exhibition">
+                {{ copy[language()].formSubjectExhibition }}
+              </option>
+              <option value="artwork">
+                {{ copy[language()].formSubjectArtwork }}
+              </option>
+              <option value="press">
+                {{ copy[language()].formSubjectPress }}
+              </option>
+              <option value="other">
+                {{ copy[language()].formSubjectOther }}
+              </option>
+            </select>
+            <i aria-hidden="true">↓</i>
+          </span>
+        </label>
+        <label class="contact__message">
+          <span>{{ copy[language()].formMessage }}</span>
+          <textarea rows="4" required></textarea>
+        </label>
+        <button type="button">
+          <span>{{ copy[language()].formSubmit }}</span>
+          <i aria-hidden="true">↗</i>
+        </button>
+      </form>
+    </div>
 
     <footer class="contact__footer scroll-reveal">
       <span>© Francesca Cho 2026</span>
-      <span>Atelier FCW · Avignon, France</span>
+      <span>Galerie Atelier FCW · Avignon, France</span>
       <a
         href="https://www.instagram.com/chofrancesca/"
         target="_blank"
