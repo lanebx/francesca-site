@@ -1,6 +1,6 @@
 <header
   class="site-header"
-  [class.site-header--dark]="heroProgress() > 0.16"
+  [class.site-header--dark]="headerDark()"
 >
   <a class="site-header__brand" href="#top" aria-label="Francesca Cho, home">
     <span>FC</span>
@@ -104,7 +104,6 @@
 
         <div class="hero__shade" aria-hidden="true"></div>
         <canvas #ashCanvas class="hero__ash" aria-hidden="true"></canvas>
-
         <div class="hero__intro">
           <p class="hero__kicker">Visual artist · 조 프란체스카</p>
           <h1 id="hero-title">Francesca Cho</h1>
@@ -123,7 +122,7 @@
         class="hero__practice"
         aria-labelledby="statement-title"
       >
-        <div class="hero__practice-inner">
+        <div class="hero__practice-inner scroll-reveal">
           <p class="eyebrow">{{ copy[language()].statementEyebrow }}</p>
           <h2 id="statement-title">{{ copy[language()].statement }}</h2>
           <span
@@ -139,32 +138,29 @@
       <div class="hero__museum" aria-label="Selected paintings">
         <figure
           class="hero__museum-view hero__museum-view--one"
-          [class.hero__museum-view--active]="
-            heroProgress() >= 0.48 && activeMuseumSlide() === 1
-          "
-          [attr.aria-hidden]="
-            heroProgress() < 0.48 || activeMuseumSlide() !== 1
-          "
         >
-          <div class="hero__art-object hero__art-object--landscape">
-            <img
-              src="assets/images/paintings/2020-2021/aout-2021.png"
-              alt="Aout, 2021, by Francesca Cho"
-            />
+          <div class="hero__art-object hero__art-object--landscape scroll-reveal">
+            <div class="hero__art-frame">
+              <img
+                src="assets/images/paintings/2020-2021/aout-2021.png"
+                alt="Aout, 2021, by Francesca Cho"
+              />
+            </div>
           </div>
           <figcaption class="hero__caption">
-            <span><em>{{ copy[language()].museum.aout.title }}</em> · 2021</span>
-            <span>{{ copy[language()].museum.aout.medium }} · 61 × 40 cm</span>
+            <div class="hero__caption-heading">
+              <em>{{ copy[language()].museum.aout.title }}</em>
+              <span>2021</span>
+            </div>
+            <p class="hero__caption-meta">
+              <span>{{ copy[language()].museum.aout.medium }}</span>
+              <span>61 × 40 cm</span>
+            </p>
             <div class="hero__caption-actions">
               <a
                 class="text-link"
                 routerLink="/works/aout-2021"
                 [queryParams]="{ lang: language(), from: 'home' }"
-                [attr.tabindex]="
-                  heroProgress() >= 0.48 && activeMuseumSlide() === 1
-                    ? null
-                    : -1
-                "
               >
                 {{ copy[language()].viewWork }}
                 <span aria-hidden="true">↗</span>
@@ -175,27 +171,29 @@
 
         <figure
           class="hero__museum-view hero__museum-view--two"
-          [class.hero__museum-view--active]="activeMuseumSlide() === 2"
-          [attr.aria-hidden]="activeMuseumSlide() !== 2"
         >
-          <div class="hero__art-object hero__art-object--panoramic">
-            <img
-              src="assets/images/paintings/2018-2019/twin-but-twin-5-2018-2019.png"
-              alt="Twin but Twin V, 2018–2019, by Francesca Cho"
-            />
+          <div class="hero__art-object hero__art-object--panoramic scroll-reveal">
+            <div class="hero__art-frame">
+              <img
+                src="assets/images/paintings/2018-2019/twin-but-twin-5-2018-2019.png"
+                alt="Twin but Twin V, 2018–2019, by Francesca Cho"
+              />
+            </div>
           </div>
           <figcaption class="hero__caption">
-            <span
-              ><em>{{ copy[language()].museum.twin.title }}</em> ·
-              2018—2019</span
-            >
-            <span>{{ copy[language()].museum.twin.medium }} · 50 × 140 cm</span>
+            <div class="hero__caption-heading">
+              <em>{{ copy[language()].museum.twin.title }}</em>
+              <span>2018—2019</span>
+            </div>
+            <p class="hero__caption-meta">
+              <span>{{ copy[language()].museum.twin.medium }}</span>
+              <span>50 × 140 cm</span>
+            </p>
             <div class="hero__caption-actions">
               <a
                 class="text-link"
                 routerLink="/works/twin-but-twin-v-2018-2019"
                 [queryParams]="{ lang: language(), from: 'home' }"
-                [attr.tabindex]="activeMuseumSlide() === 2 ? null : -1"
               >
                 {{ copy[language()].viewWork }}
                 <span aria-hidden="true">↗</span>
@@ -206,28 +204,29 @@
 
         <figure
           class="hero__museum-view hero__museum-view--three"
-          [class.hero__museum-view--active]="activeMuseumSlide() === 3"
-          [attr.aria-hidden]="activeMuseumSlide() !== 3"
         >
-          <div class="hero__art-object hero__art-object--portrait">
-            <img
-              src="assets/images/paintings/2017/larmes-dans-locean-et-le-ciel-2017.png"
-              alt="Larmes dans l’océan et le ciel, 2017, by Francesca Cho"
-            />
+          <div class="hero__art-object hero__art-object--portrait scroll-reveal">
+            <div class="hero__art-frame">
+              <img
+                src="assets/images/paintings/2017/larmes-dans-locean-et-le-ciel-2017.png"
+                alt="Larmes dans l’océan et le ciel, 2017, by Francesca Cho"
+              />
+            </div>
           </div>
           <figcaption class="hero__caption">
-            <span
-              ><em>{{ copy[language()].museum.tears.title }}</em> · 2017</span
-            >
-            <span
-              >{{ copy[language()].museum.tears.medium }} · 153 × 194 cm</span
-            >
+            <div class="hero__caption-heading">
+              <em>{{ copy[language()].museum.tears.title }}</em>
+              <span>2017</span>
+            </div>
+            <p class="hero__caption-meta">
+              <span>{{ copy[language()].museum.tears.medium }}</span>
+              <span>153 × 194 cm</span>
+            </p>
             <div class="hero__caption-actions">
               <a
                 class="text-link"
                 routerLink="/works/larmes-dans-locean-et-le-ciel-2017"
                 [queryParams]="{ lang: language(), from: 'home' }"
-                [attr.tabindex]="activeMuseumSlide() === 3 ? null : -1"
               >
                 {{ copy[language()].viewWork }}
                 <span aria-hidden="true">↗</span>
@@ -236,7 +235,6 @@
                 class="text-link"
                 routerLink="/works"
                 [queryParams]="{ lang: language() }"
-                [attr.tabindex]="activeMuseumSlide() === 3 ? null : -1"
               >
                 {{ copy[language()].viewAllWorks }}
                 <span aria-hidden="true">↗</span>

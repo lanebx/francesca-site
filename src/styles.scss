@@ -4,6 +4,7 @@
   --paper: #faf9f5;
   --ash: #a7a198;
   --wine: #6d1c18;
+  --accent-red: #8a201b;
   --line: rgba(23, 23, 21, 0.18);
   --serif: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino,
     "Times New Roman", serif;
@@ -17,18 +18,7 @@
 }
 
 html {
-  scroll-behavior: smooth;
   background: var(--warm-white);
-}
-
-html.works-scroll {
-  scroll-padding-top: 142px;
-  scroll-snap-type: y mandatory;
-}
-
-html.exhibitions-scroll {
-  scroll-padding-top: 76px;
-  scroll-snap-type: y proximity;
 }
 
 body {
@@ -68,25 +58,11 @@ a {
 img {
   display: block;
   max-width: 100%;
+  -webkit-user-drag: none;
+  user-select: none;
 }
 
 ::selection {
   background: var(--wine);
   color: var(--paper);
-}
-
-@media (max-width: 900px) {
-  html.works-scroll {
-    scroll-padding-top: 124px;
-  }
-
-  html.exhibitions-scroll {
-    scroll-padding-top: 66px;
-  }
-}
-
-@media (max-width: 760px) {
-  html.exhibitions-scroll {
-    scroll-padding-top: 64px;
-  }
 }

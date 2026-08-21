@@ -144,11 +144,6 @@ export class WorksComponent implements AfterViewInit {
   private filterTimer?: number;
 
   constructor() {
-    document.documentElement.classList.add('works-scroll');
-    this.destroyRef.onDestroy(() =>
-      document.documentElement.classList.remove('works-scroll'),
-    );
-
     this.route.queryParamMap
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((params) => {

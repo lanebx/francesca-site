@@ -30,16 +30,12 @@ interface AshParticle {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements AfterViewInit, OnDestroy {
-  @ViewChild('hero', { static: true })
-  private readonly heroRef!: ElementRef<HTMLElement>;
-
   @ViewChild('ashCanvas', { static: true })
   private readonly canvasRef!: ElementRef<HTMLCanvasElement>;
 
   readonly language = signal<Language>('en');
   readonly menuOpen = signal(false);
-  readonly heroProgress = signal(0);
-  readonly activeMuseumSlide = signal<1 | 2 | 3>(1);
+  readonly headerDark = signal(false);
 
   readonly copy = {
     en: {
@@ -245,11 +241,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
   private reduceMotion = false;
   private revealReadyFrame = 0;
   private revealObserver?: IntersectionObserver;
-  private readonly onScroll = () => this.updateHero();
+  private readonly onScroll = () => this.updateHeader();
   private readonly onResize = () => {
     this.resizeCanvas();
     this.createParticles();
-    this.updateHero();
+    this.updateHeader();
   };
 
   ngAfterViewInit(): void {
@@ -259,8 +255,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
     this.resizeCanvas();
     this.createParticles();
-    this.updateHero();
-
+    this.updateHeader();
     window.addEventListener('scroll', this.onScroll, { passive: true });
     window.addEventListener('resize', this.onResize, { passive: true });
 
@@ -327,7 +322,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         document.getElementById(anchor)?.scrollIntoView();
-        this.updateHero();
       });
     });
   }
@@ -351,8 +345,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
       if (bounds.top < lowerBoundary && bounds.bottom > upperBoundary) {
         element.classList.add('is-visible');
-      } else if (bounds.bottom <= upperBoundary) {
-        element.classList.add('is-past');
       }
     });
 
@@ -363,15 +355,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
           if (entry.isIntersecting) {
             element.classList.add('is-visible');
-            element.classList.remove('is-past');
-            return;
+            this.revealObserver?.unobserve(element);
           }
-
-          element.classList.remove('is-visible');
-          element.classList.toggle(
-            'is-past',
-            entry.boundingClientRect.top < 0,
-          );
         });
       },
       {
@@ -389,61 +374,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  private updateHero(): void {
-    const hero = this.heroRef.nativeElement;
-    const maxScroll = Math.max(hero.offsetHeight - window.innerHeight, 1);
-    const progress = Math.min(
-      1,
-      Math.max(0, (window.scrollY - hero.offsetTop) / maxScroll),
-    );
-    const intro = 1 - this.ease(this.range(progress, 0, 0.14));
-    const practiceReveal = this.ease(this.range(progress, 0.1, 0.2));
-    const practiceExit = this.ease(this.range(progress, 0.32, 0.42));
-    const museumReveal = this.ease(this.range(progress, 0.39, 0.48));
-    const secondView = this.smooth(this.range(progress, 0.56, 0.73));
-    const thirdView = this.smooth(this.range(progress, 0.78, 0.94));
-    const wallReveal = Math.max(practiceReveal, museumReveal);
-    const firstOpacity = Math.pow(1 - secondView, 2);
-    const secondOpacity = Math.pow(secondView, 2) * Math.pow(1 - thirdView, 2);
-    const thirdOpacity = Math.pow(thirdView, 2);
-
-    this.heroProgress.set(progress);
-    this.activeMuseumSlide.set(
-      thirdView >= 0.5 ? 3 : secondView >= 0.5 ? 2 : 1,
-    );
-    hero.style.setProperty('--hero-progress', progress.toFixed(4));
-    hero.style.setProperty('--hero-intro', intro.toFixed(4));
-    hero.style.setProperty('--practice-reveal', practiceReveal.toFixed(4));
-    hero.style.setProperty('--practice-exit', practiceExit.toFixed(4));
-    hero.style.setProperty('--museum-reveal', museumReveal.toFixed(4));
-    hero.style.setProperty('--wall-reveal', wallReveal.toFixed(4));
-    hero.style.setProperty('--museum-one-opacity', firstOpacity.toFixed(4));
-    hero.style.setProperty('--museum-two-opacity', secondOpacity.toFixed(4));
-    hero.style.setProperty('--museum-three-opacity', thirdOpacity.toFixed(4));
-    hero.style.setProperty(
-      '--museum-one-scale',
-      (1 + secondView * 0.025).toFixed(4),
-    );
-    hero.style.setProperty(
-      '--museum-two-scale',
-      (0.975 + secondView * 0.025 + thirdView * 0.025).toFixed(4),
-    );
-    hero.style.setProperty(
-      '--museum-three-scale',
-      (0.975 + thirdView * 0.025).toFixed(4),
-    );
-  }
-
-  private range(value: number, start: number, end: number): number {
-    return Math.min(1, Math.max(0, (value - start) / (end - start)));
-  }
-
-  private ease(value: number): number {
-    return 1 - Math.pow(1 - value, 3);
-  }
-
-  private smooth(value: number): number {
-    return value * value * (3 - 2 * value);
+  private updateHeader(): void {
+    this.headerDark.set(window.scrollY > window.innerHeight * 0.82);
   }
 
   private resizeCanvas(): void {
@@ -454,8 +386,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     canvas.style.width = `${window.innerWidth}px`;
     canvas.style.height = `${window.innerHeight}px`;
 
-    const context = canvas.getContext('2d');
-    context?.setTransform(ratio, 0, 0, ratio, 0, 0);
+    canvas.getContext('2d')?.setTransform(ratio, 0, 0, ratio, 0, 0);
   }
 
   private createParticles(): void {
@@ -474,16 +405,13 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
   }
 
   private drawAsh(): void {
-    const canvas = this.canvasRef.nativeElement;
-    const context = canvas.getContext('2d');
+    const context = this.canvasRef.nativeElement.getContext('2d');
 
     if (!context) {
       return;
     }
 
     context.clearRect(0, 0, window.innerWidth, window.innerHeight);
-    const fade = Math.max(0, 1 - this.heroProgress() * 1.7);
-
     this.particles.forEach((particle) => {
       particle.y -= particle.speed;
       particle.x += particle.drift;
@@ -494,11 +422,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
       }
 
       context.beginPath();
-      context.fillStyle = `rgba(235, 229, 217, ${particle.alpha * fade})`;
+      context.fillStyle = `rgba(235, 229, 217, ${particle.alpha})`;
       context.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
       context.fill();
     });
 
     this.ashFrame = requestAnimationFrame(() => this.drawAsh());
   }
+
 }

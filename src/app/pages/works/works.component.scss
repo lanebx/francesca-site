@@ -127,8 +127,6 @@
   align-content: end;
   margin-inline: auto;
   padding: 9rem 0 7rem;
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
 }
 
 .works-intro__index {
@@ -235,7 +233,7 @@
   transition: opacity 220ms ease;
 
   &.is-filtering {
-    opacity: 0.08;
+    opacity: 0.72;
   }
 }
 
@@ -246,8 +244,6 @@
   align-items: center;
   column-gap: clamp(1.25rem, 3vw, 3.75rem);
   padding-block: clamp(1.25rem, 3vh, 2.25rem);
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
 }
 
 .gallery-block--solo .artwork-card {
@@ -279,11 +275,11 @@
   max-width: 100%;
   max-height: 100%;
   align-items: center;
-  opacity: 0;
-  transform: translateY(38px);
+  opacity: 0.72;
+  transform: translateY(14px);
   transition:
-    opacity 900ms ease,
-    transform 1.2s cubic-bezier(0.16, 0.82, 0.18, 1);
+    opacity 550ms ease,
+    transform 700ms cubic-bezier(0.16, 0.82, 0.18, 1);
 
   &.is-visible {
     opacity: 1;
@@ -439,8 +435,6 @@
   border-top: 1px solid rgba(23, 23, 21, 0.16);
   font-size: 0.63rem;
   letter-spacing: 0.12em;
-  scroll-snap-align: end;
-  scroll-snap-stop: always;
   text-transform: uppercase;
 
   p {
@@ -607,7 +601,6 @@
     display: block;
     height: auto;
     padding: 0;
-    scroll-snap-align: none;
   }
 
   .artwork-card {
@@ -616,9 +609,7 @@
     justify-content: center;
     margin: 0;
     padding-block: clamp(2rem, 6vh, 3.5rem);
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
-    transform: translateY(24px);
+    transform: translateY(12px);
   }
 
   .artwork-card__media,

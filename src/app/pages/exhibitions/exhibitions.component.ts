@@ -96,11 +96,6 @@ export class ExhibitionsComponent implements AfterViewInit {
   private observer?: IntersectionObserver;
 
   constructor() {
-    document.documentElement.classList.add('exhibitions-scroll');
-    this.destroyRef.onDestroy(() =>
-      document.documentElement.classList.remove('exhibitions-scroll'),
-    );
-
     this.route.queryParamMap
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((params) => {
@@ -151,10 +146,13 @@ export class ExhibitionsComponent implements AfterViewInit {
     this.observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          entry.target.classList.toggle('is-visible', entry.isIntersecting);
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            this.observer?.unobserve(entry.target);
+          }
         });
       },
-      { rootMargin: '-16% 0px -18%', threshold: 0.18 },
+      { rootMargin: '-8% 0px -10%', threshold: 0.12 },
     );
 
     this.scenes.forEach((scene) => this.observer?.observe(scene.nativeElement));
