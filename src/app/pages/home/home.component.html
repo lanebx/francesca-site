@@ -7,12 +7,14 @@
   </a>
 
   <nav class="site-header__nav" aria-label="Primary navigation">
-    <a routerLink="/works">{{ copy[language()].menu.works }}</a>
-    <a routerLink="/exhibitions" [queryParams]="{ lang: language() }">{{ copy[language()].menu.exhibitions }}</a>
-    <a href="#biography">{{ copy[language()].menu.biography }}</a>
-    <a href="#critics">{{ copy[language()].menu.critics }}</a>
-    <a href="#publications">{{ copy[language()].menu.publications }}</a>
-    <a href="#contact">{{ copy[language()].menu.contact }}</a>
+    <a routerLink="/works" [queryParams]="{ lang: language() }">{{
+      text().menu.works
+    }}</a>
+    <a routerLink="/exhibitions" [queryParams]="{ lang: language() }">{{ text().menu.exhibitions }}</a>
+    <a href="#biography">{{ text().menu.biography }}</a>
+    <a href="#critics">{{ text().menu.critics }}</a>
+    <a href="#publications">{{ text().menu.publications }}</a>
+    <a href="#contact">{{ text().menu.contact }}</a>
   </nav>
 
   <div class="language-switcher" aria-label="Language selection">
@@ -62,23 +64,27 @@
   [attr.aria-hidden]="!menuOpen()"
 >
   <nav aria-label="Mobile navigation">
-    <a routerLink="/works" (click)="closeMenu()">{{
-      copy[language()].menu.works
-    }}</a>
+    <a
+      routerLink="/works"
+      [queryParams]="{ lang: language() }"
+      (click)="closeMenu()"
+    >
+      {{ text().menu.works }}
+    </a>
     <a routerLink="/exhibitions" [queryParams]="{ lang: language() }" (click)="closeMenu()">{{
-      copy[language()].menu.exhibitions
+      text().menu.exhibitions
     }}</a>
     <a href="#biography" (click)="closeMenu()">{{
-      copy[language()].menu.biography
+      text().menu.biography
     }}</a>
     <a href="#critics" (click)="closeMenu()">{{
-      copy[language()].menu.critics
+      text().menu.critics
     }}</a>
     <a href="#publications" (click)="closeMenu()">{{
-      copy[language()].menu.publications
+      text().menu.publications
     }}</a>
     <a href="#contact" (click)="closeMenu()">{{
-      copy[language()].menu.contact
+      text().menu.contact
     }}</a>
   </nav>
   <div class="mobile-menu__languages">
@@ -91,8 +97,6 @@
 <main id="top">
   <section #hero class="hero" aria-labelledby="hero-title">
     <div class="hero__sticky">
-      <div class="hero__wall"></div>
-
       <div class="hero__intro-scene">
         <div class="hero__crop" aria-hidden="true">
           <img
@@ -108,12 +112,12 @@
           <p class="hero__kicker">Visual artist · 조 프란체스카</p>
           <h1 id="hero-title">Francesca Cho</h1>
           <p class="hero__descriptor">
-            {{ copy[language()].descriptor }}
+            {{ text().descriptor }}
           </p>
         </div>
 
         <div class="hero__scroll" aria-hidden="true">
-          <span>{{ copy[language()].scroll }}</span>
+          <span>{{ text().scroll }}</span>
           <i></i>
         </div>
       </div>
@@ -123,8 +127,8 @@
         aria-labelledby="statement-title"
       >
         <div class="hero__practice-inner scroll-reveal">
-          <p class="eyebrow">{{ copy[language()].statementEyebrow }}</p>
-          <h2 id="statement-title">{{ copy[language()].statement }}</h2>
+          <p class="eyebrow">{{ text().statementEyebrow }}</p>
+          <h2 id="statement-title">{{ text().statement }}</h2>
           <span
             class="hero__practice-mark"
             [class.hero__practice-mark--word]="language() === 'ko'"
@@ -149,11 +153,11 @@
           </div>
           <figcaption class="hero__caption">
             <div class="hero__caption-heading">
-              <em>{{ copy[language()].museum.aout.title }}</em>
+              <em>{{ text().museum.aout.title }}</em>
               <span>2021</span>
             </div>
             <p class="hero__caption-meta">
-              <span>{{ copy[language()].museum.aout.medium }}</span>
+              <span>{{ text().museum.aout.medium }}</span>
               <span>61 × 40 cm</span>
             </p>
             <div class="hero__caption-actions">
@@ -162,7 +166,7 @@
                 routerLink="/works/aout-2021"
                 [queryParams]="{ lang: language(), from: 'home' }"
               >
-                {{ copy[language()].viewWork }}
+                {{ text().viewWork }}
                 <span aria-hidden="true">↗</span>
               </a>
             </div>
@@ -182,11 +186,11 @@
           </div>
           <figcaption class="hero__caption">
             <div class="hero__caption-heading">
-              <em>{{ copy[language()].museum.twin.title }}</em>
+              <em>{{ text().museum.twin.title }}</em>
               <span>2018—2019</span>
             </div>
             <p class="hero__caption-meta">
-              <span>{{ copy[language()].museum.twin.medium }}</span>
+              <span>{{ text().museum.twin.medium }}</span>
               <span>50 × 140 cm</span>
             </p>
             <div class="hero__caption-actions">
@@ -195,7 +199,7 @@
                 routerLink="/works/twin-but-twin-v-2018-2019"
                 [queryParams]="{ lang: language(), from: 'home' }"
               >
-                {{ copy[language()].viewWork }}
+                {{ text().viewWork }}
                 <span aria-hidden="true">↗</span>
               </a>
             </div>
@@ -215,11 +219,11 @@
           </div>
           <figcaption class="hero__caption">
             <div class="hero__caption-heading">
-              <em>{{ copy[language()].museum.tears.title }}</em>
+              <em>{{ text().museum.tears.title }}</em>
               <span>2017</span>
             </div>
             <p class="hero__caption-meta">
-              <span>{{ copy[language()].museum.tears.medium }}</span>
+              <span>{{ text().museum.tears.medium }}</span>
               <span>153 × 194 cm</span>
             </p>
             <div class="hero__caption-actions">
@@ -228,7 +232,7 @@
                 routerLink="/works/larmes-dans-locean-et-le-ciel-2017"
                 [queryParams]="{ lang: language(), from: 'home' }"
               >
-                {{ copy[language()].viewWork }}
+                {{ text().viewWork }}
                 <span aria-hidden="true">↗</span>
               </a>
               <a
@@ -236,7 +240,7 @@
                 routerLink="/works"
                 [queryParams]="{ lang: language() }"
               >
-                {{ copy[language()].viewAllWorks }}
+                {{ text().viewAllWorks }}
                 <span aria-hidden="true">↗</span>
               </a>
             </div>
@@ -261,19 +265,19 @@
     </div>
 
     <div class="exhibition__content scroll-reveal scroll-reveal--delay-1">
-      <p class="eyebrow">{{ copy[language()].exhibitionEyebrow }}</p>
-      <h2 id="exhibition-title">{{ copy[language()].exhibitionTitle }}</h2>
+      <p class="eyebrow">{{ text().exhibitionEyebrow }}</p>
+      <h2 id="exhibition-title">{{ text().exhibitionTitle }}</h2>
       <div class="exhibition__meta">
-        <p>{{ copy[language()].exhibitionDate }}</p>
-        <p>{{ copy[language()].exhibitionPlace }}</p>
+        <p>{{ text().exhibitionDate }}</p>
+        <p>{{ text().exhibitionPlace }}</p>
       </div>
-      <p class="exhibition__body">{{ copy[language()].exhibitionBody }}</p>
+      <p class="exhibition__body">{{ text().exhibitionBody }}</p>
       <a
         class="text-link"
         routerLink="/exhibitions/confluence-2026"
         [queryParams]="{ lang: language() }"
       >
-        {{ copy[language()].explore }}
+        {{ text().explore }}
         <span aria-hidden="true">↗</span>
       </a>
     </div>
@@ -284,9 +288,9 @@
     <div class="quote__inner scroll-reveal">
       <span class="quote__mark" aria-hidden="true">“</span>
       <blockquote id="quote-title">
-        {{ copy[language()].quote }}
+        {{ text().quote }}
       </blockquote>
-      <p>{{ copy[language()].quoteBy }}</p>
+      <p>{{ text().quoteBy }}</p>
     </div>
   </section>
 
@@ -303,11 +307,11 @@
       <span>Avignon</span>
     </div>
     <div class="biography__content scroll-reveal scroll-reveal--delay-1">
-      <p class="eyebrow">{{ copy[language()].biographyEyebrow }}</p>
-      <h2 id="biography-title">{{ copy[language()].biographyTitle }}</h2>
-      <p>{{ copy[language()].biographyBody }}</p>
+      <p class="eyebrow">{{ text().biographyEyebrow }}</p>
+      <h2 id="biography-title">{{ text().biographyTitle }}</h2>
+      <p>{{ text().biographyBody }}</p>
       <a class="text-link" href="#contact">
-        {{ copy[language()].biographyCta }}
+        {{ text().biographyCta }}
         <span aria-hidden="true">↗</span>
       </a>
     </div>
@@ -315,7 +319,7 @@
 
   <section id="publications" class="institutions section-shell">
     <p class="eyebrow scroll-reveal">
-      {{ copy[language()].pressEyebrow }}
+      {{ text().pressEyebrow }}
     </p>
     <div class="institutions__list scroll-reveal scroll-reveal--delay-1">
       <span>Tate Modern</span>
@@ -330,14 +334,14 @@
     <div class="contact__layout">
       <div class="contact__aside">
         <div class="contact__intro scroll-reveal">
-          <p class="eyebrow">{{ copy[language()].contactEyebrow }}</p>
-          <h2 id="contact-title">{{ copy[language()].contactTitle }}</h2>
-          <p>{{ copy[language()].contactBody }}</p>
+          <p class="eyebrow">{{ text().contactEyebrow }}</p>
+          <h2 id="contact-title">{{ text().contactTitle }}</h2>
+          <p>{{ text().contactBody }}</p>
         </div>
 
         <div class="contact__details scroll-reveal scroll-reveal--delay-1">
           <div>
-            <span>{{ copy[language()].visitLabel }}</span>
+            <span>{{ text().visitLabel }}</span>
             <address>
               Galerie Atelier FCW<br />
               48 Rue Limas<br />
@@ -345,7 +349,7 @@
             </address>
           </div>
           <div>
-            <span>{{ copy[language()].followLabel }}</span>
+            <span>{{ text().followLabel }}</span>
             <a
               href="https://www.instagram.com/chofrancesca/"
               target="_blank"
@@ -369,7 +373,7 @@
             target="_blank"
             rel="noreferrer"
           >
-            <span>{{ copy[language()].directionsLabel }}</span>
+            <span>{{ text().directionsLabel }}</span>
             <i aria-hidden="true">↗</i>
           </a>
         </div>
@@ -378,45 +382,42 @@
       <form class="contact__form scroll-reveal scroll-reveal--delay-1">
         <p class="contact__form-number" aria-hidden="true">01 — 04</p>
         <label>
-          <span>{{ copy[language()].formName }}</span>
+          <span>{{ text().formName }}</span>
           <input type="text" autocomplete="name" required />
         </label>
         <label>
-          <span>{{ copy[language()].formEmail }}</span>
+          <span>{{ text().formEmail }}</span>
           <input type="email" autocomplete="email" required />
         </label>
-        <label
-          class="contact__subject"
-          (click)="openSubjectPicker($event, subjectSelect)"
-        >
-          <span>{{ copy[language()].formSubject }}</span>
+        <label class="contact__subject">
+          <span>{{ text().formSubject }}</span>
           <span class="contact__select">
-            <select #subjectSelect required>
+            <select required>
               <option value="" selected disabled>
-                {{ copy[language()].formSubjectPlaceholder }}
+                {{ text().formSubjectPlaceholder }}
               </option>
               <option value="exhibition">
-                {{ copy[language()].formSubjectExhibition }}
+                {{ text().formSubjectExhibition }}
               </option>
               <option value="artwork">
-                {{ copy[language()].formSubjectArtwork }}
+                {{ text().formSubjectArtwork }}
               </option>
               <option value="press">
-                {{ copy[language()].formSubjectPress }}
+                {{ text().formSubjectPress }}
               </option>
               <option value="other">
-                {{ copy[language()].formSubjectOther }}
+                {{ text().formSubjectOther }}
               </option>
             </select>
             <i aria-hidden="true">↓</i>
           </span>
         </label>
         <label class="contact__message">
-          <span>{{ copy[language()].formMessage }}</span>
+          <span>{{ text().formMessage }}</span>
           <textarea rows="4" required></textarea>
         </label>
         <button type="button">
-          <span>{{ copy[language()].formSubmit }}</span>
+          <span>{{ text().formSubmit }}</span>
           <i aria-hidden="true">↗</i>
         </button>
       </form>

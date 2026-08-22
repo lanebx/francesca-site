@@ -165,19 +165,6 @@
   position: relative;
 }
 
-.hero__wall {
-  display: none;
-}
-
-.hero__wall::after {
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.18'/%3E%3C/svg%3E");
-  content: "";
-  mix-blend-mode: multiply;
-  opacity: 0.12;
-}
-
 .hero__intro-scene,
 .hero__practice,
 .hero__museum,
@@ -538,15 +525,7 @@
   transition-duration: 650ms, 900ms;
 }
 
-:host(.reveal-ready) .hero__caption.scroll-reveal {
-  opacity: 0.76;
-  transform: translateY(18px);
-  transition-duration: 550ms, 750ms;
-  transition-delay: 100ms;
-}
-
-:host(.reveal-ready) .hero__art-object.scroll-reveal.is-visible,
-:host(.reveal-ready) .hero__caption.scroll-reveal.is-visible {
+:host(.reveal-ready) .hero__art-object.scroll-reveal.is-visible {
   opacity: 1;
   transform: none;
 }
